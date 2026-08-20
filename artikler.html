@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artikler om privatleasing i Danmark — CarForYou</title>
+<meta name="description" content="Nyheder og guides om privatleasing i Danmark: bilafgifter, priser og renter — opdateret løbende og altid med kilder.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#084F8C; --ink-soft:#3E6A8A; --paper:#F3F6F8; --paper-raised:#FFFFFF;
+    --fjord:#1081C7; --fjord-deep:#084F8C; --mint:#E3F6FC; --amber:#00B0F0; --amber-deep:#0C93CE;
+    --grey:#5B6472; --line:#DCE3E8;
+    --display:'Readex Pro', sans-serif; --body:'Inter', sans-serif; --mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); line-height:1.6;}
+  a{color:inherit;}
+  .wrap{max-width:820px; margin:0 auto; padding:0 28px;}
+  header{padding:22px 0; border-bottom:1px solid var(--line); background:var(--paper-raised);}
+  header .inner{max-width:1080px; margin:0 auto; padding:0 28px; display:flex; align-items:center; justify-content:space-between;}
+  .logo svg{height:26px; width:auto; display:block;}
+  nav a{font-size:14px; color:var(--ink-soft); text-decoration:none; margin-left:28px;}
+  nav a:hover{color:var(--fjord);}
+  main{padding:56px 0 80px;}
+  .eyebrow{
+    font-family:var(--mono); font-size:12.5px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--fjord-deep); background:var(--mint); display:inline-block; padding:5px 10px; border-radius:4px; margin-bottom:16px;
+  }
+  h1{font-family:var(--display); font-size:34px; line-height:1.15; letter-spacing:-0.01em; margin:0 0 12px;}
+  .lede{font-size:16px; color:var(--ink-soft); max-width:56ch; margin:0 0 44px;}
+  .article-list{display:flex; flex-direction:column; gap:0;}
+  .article-card{
+    display:block; text-decoration:none; color:inherit;
+    padding:26px 0; border-bottom:1px solid var(--line);
+  }
+  .article-card:first-child{padding-top:0;}
+  .article-meta{display:flex; gap:10px; align-items:center; margin-bottom:8px;}
+  .article-tag{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.05em;
+    color:var(--fjord-deep); background:var(--mint); padding:3px 8px; border-radius:4px;
+  }
+  .article-date{font-size:12.5px; color:var(--grey);}
+  .article-card h2{font-family:var(--display); font-size:20px; font-weight:600; margin:0 0 8px; line-height:1.3;}
+  .article-card:hover h2{color:var(--fjord);}
+  .article-summary{font-size:14.5px; color:var(--ink-soft); margin:0; max-width:65ch;}
+  footer{padding:30px 0 50px; text-align:center; color:var(--grey); font-size:13px; border-top:1px solid var(--line);}
+  @media (max-width:480px){
+    .wrap{padding:0 18px;}
+    header .inner{padding-left:18px; padding-right:18px;}
+    main{padding:40px 0 56px;}
+    h1{font-size:27px;}
+    .lede{font-size:15px;}
+    .article-card h2{font-size:18px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="inner">
+    <a href="index.html" class="logo"><svg viewBox="0 0 2340 762" xmlns="http://www.w3.org/2000/svg"><text fill="#084F8C" font-family="'Readex Pro',sans-serif" font-weight="600" font-size="362" transform="matrix(1 0 0 1 297.57 457)">car</text><text fill="#1081C7" font-family="'Readex Pro',sans-serif" font-weight="600" font-size="362" transform="matrix(1 0 0 1 841.84 457)">for</text><text fill="#00B0F0" font-family="'Readex Pro',sans-serif" font-weight="600" font-size="362" transform="matrix(1 0 0 1 1355.17 457)">you</text><path d="M0 312.244C0 269.583 34.58 235 77.24 235L182.76 235C225.42 235 260 269.583 260 312.244L260 417.757C260 460.417 225.42 495.001 182.76 495.001L77.24 495.001C34.58 495.001 0 460.417 0 417.757Z" fill="#1081C7" fill-rule="evenodd"/><text fill="#FFFFFF" font-family="'Readex Pro',sans-serif" font-weight="600" font-size="83" transform="matrix(1 0 0 1 93.91 444)">cfy</text></svg></a>
+    <nav>
+      <a href="index.html#compare">Priser</a>
+      <a href="modeller.html">Modeller</a>
+      <a href="sammenlign.html">Sammenlign</a>
+      <a href="artikler.html">Artikler</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <span class="eyebrow">Privatleasing · Nyheder & guides</span>
+    <h1>Artikler om privatleasing i Danmark</h1>
+    <p class="lede">Det, der rent faktisk ændrer din leasingpris — afgifter, renter og priser — forklaret kort, med kilder, og altid koblet til de reelle priser på siden.</p>
+
+    <div class="article-list" id="articleList"></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">CarForYou — tidlig testversion. Ikke tilknyttet de viste bilmærker.</div>
+</footer>
+
+<script src="articles.js"></script>
+<script>
+  var list = document.getElementById('articleList');
+  var sorted = ARTICLES.slice().sort(function(a, b){ return b.date.localeCompare(a.date); });
+  list.innerHTML = sorted.map(function(a){
+    var dateLabel = new Date(a.date).toLocaleDateString('da-DK', {day:'numeric', month:'long', year:'numeric'});
+    return '<a class="article-card" href="' + a.filename + '">' +
+      '<div class="article-meta"><span class="article-tag">' + a.tag + '</span><span class="article-date">' + dateLabel + '</span></div>' +
+      '<h2>' + a.title + '</h2>' +
+      '<p class="article-summary">' + a.summary + '</p>' +
+    '</a>';
+  }).join('');
+</script>
+
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Sammenlign biler til privatleasing | CarForYou</title>
+<meta name="description" id="pageDescription" content="Sammenlign to bilmodeller til privatleasing side om side — pris, udbetaling og specifikationer, hentet direkte fra mærkerne.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#084F8C; --ink-soft:#3E6A8A; --paper:#F3F6F8; --paper-raised:#FFFFFF;
+    --fjord:#1081C7; --fjord-deep:#084F8C; --mint:#E3F6FC; --amber:#00B0F0; --amber-deep:#0C93CE;
+    --grey:#5B6472; --line:#DCE3E8; --good:#1E7A45; --good-bg:#E6F4EA;
+    --display:'Readex Pro', sans-serif; --body:'Inter', sans-serif; --mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); line-height:1.6;}
+  a{color:var(--fjord);}
+  .wrap{max-width:900px; margin:0 auto; padding:0 28px;}
+  header{padding:22px 0; border-bottom:1px solid var(--line); background:var(--paper-raised);}
+  header .inner{max-width:1080px; margin:0 auto; padding:0 28px; display:flex; align-items:center; justify-content:space-between;}
+  .logo svg{height:26px; width:auto; display:block;}
+  nav a{font-size:14px; color:var(--ink-soft); text-decoration:none; margin-left:24px;}
+  nav a:hover{color:var(--fjord);}
+  main{padding:44px 0 70px;}
+  .breadcrumb{font-size:13px; color:var(--grey); margin-bottom:16px;}
+  .breadcrumb a{color:var(--grey); text-decoration:none;}
+  .breadcrumb a:hover{color:var(--fjord);}
+  h1{font-family:var(--display); font-size:28px; line-height:1.2; letter-spacing:-0.01em; margin:0 0 8px;}
+  .lede{font-size:15px; color:var(--ink-soft); margin:0 0 28px; max-width:60ch;}
+
+  .picker-row{display:grid; grid-template-columns:1fr auto 1fr; gap:14px; align-items:end; margin-bottom:30px;}
+  .picker{display:flex; flex-direction:column; gap:6px;}
+  .picker label{font-size:12px; font-weight:600; color:var(--grey); text-transform:uppercase; letter-spacing:0.04em;}
+  .picker select{
+    font-family:var(--body); font-size:14.5px; font-weight:600; color:var(--ink);
+    padding:12px 14px; border-radius:8px; border:1px solid var(--line); background:var(--paper-raised); cursor:pointer;
+  }
+  .vs-badge{
+    font-family:var(--mono); font-size:13px; font-weight:700; color:var(--grey);
+    width:36px; height:36px; border-radius:50%; background:var(--paper-raised); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; margin-bottom:2px; justify-self:center;
+  }
+  .swap-btn{
+    font-size:12.5px; font-weight:600; color:var(--fjord); background:none; border:none; cursor:pointer;
+    text-decoration:underline; padding:0; margin-top:2px; align-self:flex-start;
+  }
+
+  .compare-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;}
+  .model-summary{background:var(--paper-raised); border:1px solid var(--line); border-radius:12px; padding:20px; text-align:center;}
+  .model-summary .icon{width:64px; height:34px; margin:0 auto 12px;}
+  .model-summary .icon svg{width:100%; height:100%;}
+  .model-summary .brand{font-family:var(--mono); font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--fjord-deep);}
+  .model-summary h2{font-family:var(--display); font-size:19px; margin:4px 0 10px;}
+  .model-summary .price{font-family:var(--mono); font-weight:700; font-size:24px; color:var(--ink);}
+  .model-summary .price span{font-size:12px; font-weight:500; color:var(--grey);}
+  .model-summary .winner-tag{
+    display:inline-block; margin-top:8px; font-size:11.5px; font-weight:700; color:var(--good);
+    background:var(--good-bg); padding:3px 10px; border-radius:999px;
+  }
+  .model-summary .page-link{display:block; margin-top:12px; font-size:13px; font-weight:600;}
+
+  .compare-table{width:100%; border-collapse:collapse; background:var(--paper-raised); border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-bottom:8px;}
+  .compare-table th{text-align:left; font-size:11.5px; text-transform:uppercase; letter-spacing:0.04em; color:var(--grey); font-weight:600; padding:12px 14px; border-bottom:1px solid var(--line); background:var(--paper);}
+  .compare-table td{padding:13px 14px; font-size:14.5px; border-bottom:1px solid var(--line); text-align:center;}
+  .compare-table tr:last-child td{border-bottom:none;}
+  .compare-table td:first-child{text-align:left; color:var(--ink-soft); font-size:13.5px;}
+  .compare-table td.better{font-weight:700; color:var(--good); background:var(--good-bg);}
+  .compare-table td.num{font-family:var(--mono);}
+  .table-scroll{overflow-x:auto;}
+  .note{font-size:12.5px; color:var(--grey); margin:14px 0 0;}
+  .cta-box{background:var(--ink); color:#fff; border-radius:10px; padding:24px; margin:36px 0 8px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;}
+  .cta-box p{margin:0; font-size:14.5px; color:#C3CCDA; max-width:40ch;}
+  .cta-box a{background:var(--amber); color:var(--ink); font-weight:600; font-size:14px; text-decoration:none; padding:11px 18px; border-radius:6px; white-space:nowrap;}
+  footer{padding:30px 0 50px; text-align:center; color:var(--grey); font-size:13px; border-top:1px solid var(--line); margin-top:20px;}
+  @media (max-width:640px){
+    .wrap{padding:0 18px;}
+    header .inner{padding-left:18px; padding-right:18px;}
+    .picker-row{grid-template-columns:1fr; gap:10px;}
+    .vs-badge{justify-self:center; margin:2px 0;}
+    .compare-grid{grid-template-columns:1fr;}
+    h1{font-size:23px;}
+    .cta-box{flex-direction:column; align-items:stretch; text-align:center;}
+    .cta-box a{text-align:center;}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="car-hatchback" viewBox="0 0 120 60"><rect x="8" y="32" width="104" height="16" rx="8" fill="#1081C7"/><path d="M30 32 L45 14 L80 14 L100 32 Z" fill="#084F8C"/><path d="M33 30 L46 18 L79 18 L96 30 Z" fill="#E3F6FC"/><circle cx="35" cy="48" r="11" fill="#084F8C"/><circle cx="35" cy="48" r="4" fill="#00B0F0"/><circle cx="90" cy="48" r="11" fill="#084F8C"/><circle cx="90" cy="48" r="4" fill="#00B0F0"/></symbol>
+    <symbol id="car-suv" viewBox="0 0 120 60"><rect x="6" y="28" width="108" height="20" rx="8" fill="#1081C7"/><path d="M28 28 L42 8 L82 8 L98 28 Z" fill="#084F8C"/><path d="M31 26 L43 12 L81 12 L94 26 Z" fill="#E3F6FC"/><circle cx="32" cy="50" r="13" fill="#084F8C"/><circle cx="32" cy="50" r="4.5" fill="#00B0F0"/><circle cx="92" cy="50" r="13" fill="#084F8C"/><circle cx="92" cy="50" r="4.5" fill="#00B0F0"/></symbol>
+    <symbol id="car-mpv" viewBox="0 0 120 60"><rect x="10" y="26" width="100" height="18" rx="6" fill="#1081C7"/><path d="M18 26 L20 6 L95 6 L100 26 Z" fill="#084F8C"/><path d="M22 24 L23 10 L94 10 L97 24 Z" fill="#E3F6FC"/><circle cx="34" cy="48" r="11" fill="#084F8C"/><circle cx="34" cy="48" r="4" fill="#00B0F0"/><circle cx="88" cy="48" r="11" fill="#084F8C"/><circle cx="88" cy="48" r="4" fill="#00B0F0"/></symbol>
+  </defs>
+</svg>
+
+<header>
+  <div class="inner">
+    <a href="index.html" class="logo"><svg viewBox="0 0 2340 762" xmlns="http://www.w3.org/2000/svg"><text fill="#084F8C" font-family="'Readex Pro',sans-serif" font-weight="600" font-size="362" transform="matrix(1 0 0 1 297.57 457)">car</text><text fill="#1081C7" font-family="'Readex Pro',sans-serif" font-weight="600" font-size="362" transform="matrix(1 0 0 1 841.84 457)">for</text><text fill="#00B0F0" font-family="'Readex Pro',sans-serif" font-weight="600" font-size="362" transform="matrix(1 0 0 1 1355.17 457)">you</text><path d="M0 312.244C0 269.583 34.58 235 77.24 235L182.76 235C225.42 235 260 269.583 260 312.244L260 417.757C260 460.417 225.42 495.001 182.76 495.001L77.24 495.001C34.58 495.001 0 460.417 0 417.757Z" fill="#1081C7" fill-rule="evenodd"/><text fill="#FFFFFF" font-family="'Readex Pro',sans-serif" font-weight="600" font-size="83" transform="matrix(1 0 0 1 93.91 444)">cfy</text></svg></a>
+    <nav>
+      <a href="index.html#compare">Priser</a>
+      <a href="modeller.html">Modeller</a>
+      <a href="sammenlign.html">Sammenlign</a>
+      <a href="artikler.html">Artikler</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <p class="breadcrumb"><a href="index.html">CarForYou</a> / Sammenlign</p>
+    <h1 id="h1Title">Sammenlign to biler til privatleasing</h1>
+    <p class="lede">Vælg to modeller for at se pris, udbetaling og specifikationer side om side.</p>
+
+    <div class="picker-row">
+      <div class="picker">
+        <label for="pickA">Model A</label>
+        <select id="pickA"></select>
+      </div>
+      <div class="vs-badge">VS</div>
+      <div class="picker">
+        <label for="pickB">Model B</label>
+        <select id="pickB"></select>
+      </div>
+    </div>
+    <button type="button" class="swap-btn" id="swapBtn">↔ Byt om</button>
+
+    <div id="compareOutput"></div>
+
+    <div class="cta-box">
+      <p>Se alle leasingtilbud og filtrér på pris, mærke og biltype.</p>
+      <a href="index.html#compare">Se fuld sammenligning →</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">CarForYou — tidlig testversion. Ikke tilknyttet de viste bilmærker.</div>
+</footer>
+
+<script src="data.js"></script>
+<script src="model-specs.js"></script>
+<script>
+  function slugify(s){
+    return String(s).toLowerCase()
+      .replace(/æ/g,'ae').replace(/ø/g,'oe').replace(/å/g,'aa')
+      .replace(/[^a-z0-9]+/g,'-')
+      .replace(/^-+|-+$/g,'');
+  }
+  function fmtKr(n){ return n.toLocaleString('da-DK') + ' kr.'; }
+  function modelSlug(maerke, model){ return slugify(maerke) + '-' + slugify(model); }
+
+  // Group the live dataset into one entry per model, same grouping logic
+  // used to build the static model pages -- single source of truth.
+  var MODELS = (function(){
+    var groups = {};
+    CARFORYOU_DATA.forEach(function(o){
+      var key = modelSlug(o.maerke, o.model);
+      if (!groups[key]) groups[key] = { key: key, maerke: o.maerke, model: o.model, type: o.type || 'hatchback', records: [] };
+      groups[key].records.push(o);
+    });
+    return Object.values(groups).sort(function(a,b){
+      return (a.maerke + a.model).localeCompare(b.maerke + b.model);
+    });
+  })();
+
+  function findModel(key){ return MODELS.find(function(m){ return m.key === key; }); }
+
+  function modelSpec(m){
+    return (typeof MODEL_SPECS !== 'undefined') ? MODEL_SPECS[m.maerke + '|' + m.model] : null;
+  }
+
+  function populateSelect(select){
+    select.innerHTML = MODELS.map(function(m){
+      return '<option value="' + m.key + '">' + m.maerke + ' ' + m.model + '</option>';
+    }).join('');
+  }
+  var selA = document.getElementById('pickA');
+  var selB = document.getElementById('pickB');
+  populateSelect(selA);
+  populateSelect(selB);
+
+  // Pre-select from URL (?a=slug&b=slug) if present and valid, so specific
+  // comparisons are shareable/bookmarkable -- otherwise default to the two
+  // cheapest models overall, so the page is never empty on first load.
+  var params = new URLSearchParams(window.location.search);
+  var defaultSorted = MODELS.slice().sort(function(a,b){
+    var minA = Math.min.apply(null, a.records.map(function(r){ return r.ydelse_kr; }));
+    var minB = Math.min.apply(null, b.records.map(function(r){ return r.ydelse_kr; }));
+    return minA - minB;
+  });
+  var initA = (params.get('a') && findModel(params.get('a'))) ? params.get('a') : (defaultSorted[0] && defaultSorted[0].key);
+  var initB = (params.get('b') && findModel(params.get('b')) && params.get('b') !== initA) ? params.get('b') : (defaultSorted.find(function(m){ return m.key !== initA; }) || {}).key;
+  if (initA) selA.value = initA;
+  if (initB) selB.value = initB;
+
+  function modelStats(m){
+    var prices = m.records.map(function(r){ return r.ydelse_kr; });
+    var downs = m.records.map(function(r){ return r.udbetaling_kr; });
+    return {
+      cheapest: Math.min.apply(null, prices),
+      priceMax: Math.max.apply(null, prices),
+      downMin: Math.min.apply(null, downs),
+      variantCount: m.records.length,
+    };
+  }
+
+  function render(){
+    var a = findModel(selA.value);
+    var b = findModel(selB.value);
+    var out = document.getElementById('compareOutput');
+    if (!a || !b){ out.innerHTML = ''; return; }
+
+    var sa = modelStats(a), sb = modelStats(b);
+
+    document.getElementById('h1Title').textContent = a.maerke + ' ' + a.model + ' vs. ' + b.maerke + ' ' + b.model;
+    document.getElementById('pageTitle').textContent = a.maerke + ' ' + a.model + ' vs. ' + b.maerke + ' ' + b.model + ' — sammenlign leasingpriser | CarForYou';
+    document.getElementById('pageDescription').setAttribute('content',
+      'Sammenlign privatleasing af ' + a.maerke + ' ' + a.model + ' og ' + b.maerke + ' ' + b.model + ': pris fra ' +
+      fmtKr(sa.cheapest) + '/md. vs. ' + fmtKr(sb.cheapest) + '/md., udbetaling og specifikationer side om side.');
+
+    // Keep the URL shareable without adding a history entry per keystroke.
+    var newParams = new URLSearchParams();
+    newParams.set('a', a.key); newParams.set('b', b.key);
+    history.replaceState(null, '', 'sammenlign.html?' + newParams.toString());
+
+    function summaryCard(m, s, winner){
+      return '<div class="model-summary">' +
+        '<div class="icon"><svg viewBox="0 0 120 60"><use href="#car-' + m.type + '"/></svg></div>' +
+        '<div class="brand">' + m.maerke + '</div>' +
+        '<h2>' + m.model + '</h2>' +
+        '<div class="price">' + fmtKr(s.cheapest) + ' <span>/md. fra</span></div>' +
+        (winner ? '<div class="winner-tag">Billigst</div>' : '') +
+        '<a class="page-link" href="model-' + m.key + '.html">Se alle tilbud →</a>' +
+      '</div>';
+    }
+    var aWins = sa.cheapest < sb.cheapest;
+    var bWins = sb.cheapest < sa.cheapest;
+
+    function row(label, valA, valB, betterA, betterB, isNum){
+      return '<tr><td>' + label + '</td>' +
+        '<td class="' + (isNum ? 'num ' : '') + (betterA ? 'better' : '') + '">' + valA + '</td>' +
+        '<td class="' + (isNum ? 'num ' : '') + (betterB ? 'better' : '') + '">' + valB + '</td></tr>';
+    }
+
+    var specA = modelSpec(a), specB = modelSpec(b);
+
+    function specRangeRow(){
+      if (!specA && !specB) {
+        return row('Rækkevidde', 'Ikke hentet endnu', 'Ikke hentet endnu', false, false, false);
+      }
+      var va = specA && specA.type === 'electric' ? specA.raekkevidde_km_min + '\u2013' + specA.raekkevidde_km_max + ' km' : (specA ? '\u2013' : 'Ikke hentet endnu');
+      var vb = specB && specB.type === 'electric' ? specB.raekkevidde_km_min + '\u2013' + specB.raekkevidde_km_max + ' km' : (specB ? '\u2013' : 'Ikke hentet endnu');
+      var betterA = false, betterB = false;
+      if (specA && specB && specA.type === 'electric' && specB.type === 'electric') {
+        betterA = specA.raekkevidde_km_max > specB.raekkevidde_km_max;
+        betterB = specB.raekkevidde_km_max > specA.raekkevidde_km_max;
+      }
+      return row('Rækkevidde (WLTP)', va, vb, betterA, betterB, false);
+    }
+
+    function specForbrugRow(){
+      if (!specA && !specB) return '';
+      var va = specA ? specA.forbrug : 'Ikke hentet endnu';
+      var vb = specB ? specB.forbrug : 'Ikke hentet endnu';
+      return row('Forbrug', va, vb, false, false, false);
+    }
+
+    var html = '<div class="compare-grid">' +
+      summaryCard(a, sa, aWins) + summaryCard(b, sb, bWins) +
+    '</div>' +
+    '<div class="table-scroll"><table class="compare-table">' +
+      '<thead><tr><th>Sammenligning</th><th>' + a.maerke + ' ' + a.model + '</th><th>' + b.maerke + ' ' + b.model + '</th></tr></thead>' +
+      '<tbody>' +
+        row('Billigste ydelse/md.', fmtKr(sa.cheapest), fmtKr(sb.cheapest), sa.cheapest < sb.cheapest, sb.cheapest < sa.cheapest, true) +
+        row('Dyreste ydelse/md.', fmtKr(sa.priceMax), fmtKr(sb.priceMax), false, false, true) +
+        row('Laveste udbetaling', fmtKr(sa.downMin), fmtKr(sb.downMin), sa.downMin < sb.downMin, sb.downMin < sa.downMin, true) +
+        row('Antal varianter', sa.variantCount, sb.variantCount, false, false, true) +
+        row('Biltype', a.type, b.type, false, false, false) +
+        specRangeRow() +
+        specForbrugRow() +
+      '</tbody>' +
+    '</table></div>' +
+    '<p class="note">"Billigste ydelse" er den laveste månedlige pris på tværs af modellens varianter og udbetalingstrin — ikke nødvendigvis samme udbetaling for begge biler. ' +
+    ((!specA || !specB) ? 'Vi har endnu ikke hentet detaljerede specifikationer for alle mærker automatisk. ' : '') +
+    'Se hele prislisten for hver model via linket ovenfor.</p>';
+
+    out.innerHTML = html;
+  }
+
+  selA.addEventListener('change', render);
+  selB.addEventListener('change', render);
+  document.getElementById('swapBtn').addEventListener('click', function(){
+    var tmp = selA.value; selA.value = selB.value; selB.value = tmp;
+    render();
+  });
+
+  render();
+</script>
+
+</body>
+</html>

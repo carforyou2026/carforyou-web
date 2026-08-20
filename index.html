@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CarForYou — Se de rigtige leasingpriser med det samme</title>
+<meta name="description" content="Sammenlign privatleasing-priser fra Volkswagen, Toyota, Kia og Renault direkte fra kilden — udbetaling, ydelse og løbetid samlet, ingen formular. Opdateres løbende.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CarForYou",
+  "url": "https://carforyou.dk/",
+  "description": "Sammenligning af privatleasing-priser i Danmark på tværs af bilmærker, hentet direkte fra mærkernes egne hjemmesider."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "CarForYou",
+  "url": "https://carforyou.dk/",
+  "inLanguage": "da-DK"
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Brand palette — from CarForYou logo/brand kit */
+    --ink:#084F8C;
+    --ink-soft:#3E6A8A;
+    --paper:#F3F6F8;
+    --paper-raised:#FFFFFF;
+    --fjord:#1081C7;
+    --fjord-deep:#084F8C;
+    --mint:#E3F6FC;
+    --amber:#00B0F0;
+    --amber-deep:#0C93CE;
+    --grey:#5B6472;
+    --line:#DCE3E8;
+    --display: 'Readex Pro', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--body);
+    line-height:1.5;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 28px;}
+
+  /* Header */
+  header{
+    padding:22px 0;
+    border-bottom:1px solid var(--line);
+  }
+  header .wrap{display:flex; align-items:center; justify-content:space-between;}
+  .logo{
+    display:flex;
+    align-items:center;
+  }
+  .logo svg{
+    height:26px;
+    width:auto;
+    display:block;
+  }
+  nav a{
+    font-size:14px;
+    color:var(--ink-soft);
+    text-decoration:none;
+    margin-left:28px;
+  }
+  nav a:hover{color:var(--fjord);}
+  nav a:focus-visible{outline:2px solid var(--fjord); outline-offset:4px; border-radius:2px;}
+  .nav-toggle{
+    display:none;
+    width:44px; height:44px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--paper-raised);
+    cursor:pointer;
+    position:relative;
+  }
+  .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after{
+    content:''; position:absolute; left:9px; right:9px; height:2px; background:var(--ink);
+    transition:transform 0.15s ease, opacity 0.15s ease;
+  }
+  .nav-toggle span{top:21px;}
+  .nav-toggle span::before{content:''; top:-7px;}
+  .nav-toggle span::after{content:''; top:7px;}
+  .nav-toggle[aria-expanded="true"] span{background:transparent;}
+  .nav-toggle[aria-expanded="true"] span::before{transform:translateY(7px) rotate(45deg);}
+  .nav-toggle[aria-expanded="true"] span::after{transform:translateY(-7px) rotate(-45deg);}
+  @media (max-width:680px){
+    .nav-toggle{display:block;}
+    nav{
+      display:none;
+      position:absolute; top:100%; left:0; right:0;
+      background:var(--paper-raised); border-bottom:1px solid var(--line);
+      padding:8px 28px 18px; flex-direction:column;
+      box-shadow:0 8px 16px rgba(8,79,140,0.08);
+    }
+    nav.open{display:flex;}
+    nav a{margin:0; padding:12px 0; border-bottom:1px solid var(--line); font-size:15px;}
+    nav a:last-child{border-bottom:none;}
+    header{position:relative;}
+  }
+
+  /* Hero */
+  .hero{padding:76px 0 64px;}
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:56px;
+    align-items:center;
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--fjord-deep);
+    background:var(--mint);
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:4px;
+    margin-bottom:18px;
+  }
+  h1{
+    font-family:var(--display);
+    font-size:44px;
+    line-height:1.08;
+    letter-spacing:-0.02em;
+    margin:0 0 20px;
+  }
+  .hero p.lede{
+    font-size:17px;
+    color:var(--ink-soft);
+    max-width:46ch;
+    margin:0 0 30px;
+  }
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--body);
+    font-weight:600;
+    font-size:15px;
+    padding:13px 22px;
+    border-radius:6px;
+    border:none;
+    cursor:pointer;
+    text-decoration:none;
+    display:inline-block;
+  }
+  .btn-primary{background:var(--fjord); color:#fff;}
+  .btn-primary:hover{background:var(--fjord-deep);}
+  .btn-primary:focus-visible{outline:2px solid var(--ink); outline-offset:3px;}
+  .btn-ghost{background:transparent; color:var(--ink); border:1px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--fjord); color:var(--fjord);}
+
+  /* Mirror visual */
+  .mirror{
+    position:relative;
+    padding:34px 0 10px;
+  }
+  .mirror-label{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--grey);
+    text-align:center;
+    margin-bottom:6px;
+  }
+  .mirror-price{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:56px;
+    text-align:center;
+    color:var(--ink);
+    letter-spacing:-0.01em;
+  }
+  .mirror-price span{font-size:22px; font-weight:500; color:var(--grey);}
+  .waterline{
+    height:1px;
+    background:linear-gradient(90deg, transparent, var(--fjord), transparent);
+    margin:14px 0;
+    position:relative;
+    box-shadow:0 1px 8px rgba(16,129,199,0.35);
+  }
+  .mirror-reflection{
+    transform:scaleY(-1);
+    -webkit-mask-image:linear-gradient(to bottom, rgba(0,0,0,0.28), transparent 85%);
+    mask-image:linear-gradient(to bottom, rgba(0,0,0,0.28), transparent 85%);
+    opacity:0.55;
+  }
+  .mirror-caption{
+    text-align:center;
+    font-size:13px;
+    color:var(--grey);
+    margin-top:6px;
+  }
+
+  /* Sponsor disclosure badge. Deliberately neutral/muted, not styled like a
+     promotional callout -- its job is to disclose paid placement clearly,
+     per Danish marketing-law requirements, not to look exciting. */
+  .sponsor-badge{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:10.5px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--ink-soft);
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    padding:4px 9px;
+    border-radius:999px;
+  }
+  .mirror .sponsor-badge{display:block; width:fit-content; margin:0 auto 12px;}
+  .offer-card-photo .sponsor-badge{position:absolute; top:10px; right:10px;}
+  .offer-card--sponsored{border-color:var(--fjord); box-shadow:0 0 0 2px rgba(16,129,199,0.12);}
+
+  /* How it works */
+  .steps{padding:54px 0; background:var(--paper-raised); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .steps h2{
+    font-family:var(--display);
+    font-size:26px;
+    margin:0 0 34px;
+    letter-spacing:-0.01em;
+  }
+  .steps-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:30px;}
+  .step{padding-right:10px;}
+  .step .num{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--fjord);
+    display:block;
+    margin-bottom:10px;
+  }
+  .step h3{font-size:16.5px; margin:0 0 8px; font-family:var(--body); font-weight:600;}
+  .step p{font-size:14.5px; color:var(--ink-soft); margin:0;}
+
+  /* Offers section */
+  .compare{padding:60px 0 20px;}
+  .compare h2{
+    font-family:var(--display);
+    font-size:26px;
+    margin:0 0 6px;
+    letter-spacing:-0.01em;
+  }
+  .compare .sub{color:var(--grey); font-size:14.5px; margin:0 0 22px;}
+
+  .market-fig{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:10px;
+    padding:20px 22px 14px; margin:0 0 22px;
+  }
+  .market-fig svg{width:100%; height:auto; display:block;}
+  .market-fig figcaption{font-size:11px; color:var(--grey); margin-top:8px; text-align:right;}
+
+  /* Filter panel — dropdown chain + reset + result count, in the spirit of
+     Bilbasen's search bar (Mærke/Model/Årgang/Km/Drivmiddel dropdowns,
+     Nulstil, "Vis X biler"), adapted to our fields. */
+  .filter-panel{
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:18px 20px;
+    margin-bottom:14px;
+  }
+  .filter-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    align-items:center;
+  }
+  .filter-select{
+    font-family:var(--body);
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--ink);
+    padding:12px 14px;
+    border-radius:8px;
+    border:1px solid var(--line);
+    background:var(--paper);
+    cursor:pointer;
+    min-width:140px;
+  }
+  .filter-select:focus-visible{outline:2px solid var(--fjord);}
+  .filter-reset{
+    font-family:var(--body);
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--grey);
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:12px 10px;
+    text-decoration:underline;
+  }
+  .filter-reset:hover{color:var(--ink);}
+  .filter-count{
+    margin-left:auto;
+    font-family:var(--body);
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--ink);
+    background:var(--mint);
+    padding:9px 16px;
+    border-radius:8px;
+    white-space:nowrap;
+  }
+  /* Dual-handle range sliders (udbetaling + ydelse) */
+  .filter-ranges{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+    margin-top:16px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+  }
+  .range-filter-label{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--ink-soft);
+    margin-bottom:10px;
+  }
+  .range-filter-label span:last-child{
+    font-family:var(--mono);
+    font-weight:700;
+    color:var(--ink);
+  }
+  .range-slider{position:relative; height:30px;}
+  .range-slider-track{
+    position:absolute; top:50%; left:0; right:0; height:4px;
+    background:var(--line); border-radius:2px; transform:translateY(-50%);
+  }
+  .range-slider-fill{
+    position:absolute; top:50%; height:4px;
+    background:var(--fjord); border-radius:2px; transform:translateY(-50%);
+  }
+  .range-slider input[type=range]{
+    position:absolute; top:0; left:0; width:100%; height:30px;
+    margin:0; background:none; -webkit-appearance:none; appearance:none;
+    pointer-events:none;
+  }
+  .range-slider input[type=range]::-webkit-slider-runnable-track{background:transparent;}
+  .range-slider input[type=range]::-moz-range-track{background:transparent; border:none;}
+  .range-slider input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; pointer-events:auto;
+    width:18px; height:18px; margin-top:6px; border-radius:50%;
+    background:var(--fjord); border:2px solid #fff;
+    box-shadow:0 1px 4px rgba(8,79,140,0.4); cursor:pointer;
+  }
+  .range-slider input[type=range]::-moz-range-thumb{
+    pointer-events:auto; width:18px; height:18px; border-radius:50%;
+    background:var(--fjord); border:2px solid #fff;
+    box-shadow:0 1px 4px rgba(8,79,140,0.4); cursor:pointer;
+  }
+  .range-slider input[type=range]:focus-visible::-webkit-slider-thumb{outline:2px solid var(--ink); outline-offset:2px;}
+  /* Whichever handle was touched last comes to the front, so two handles
+     sitting close together on a narrow screen don't fight for the tap. */
+  .range-slider input[type=range]:active,
+  .range-slider input[type=range]:focus{z-index:2;}
+  /* Touch devices: native thumbs are the only interactive element here, so
+     give them a bigger hit area rather than a separate invisible touch
+     zone (range inputs don't support that split cleanly). 18px is fine for
+     a mouse; touch needs more. */
+  @media (pointer:coarse){
+    .range-slider{height:38px;}
+    .range-slider input[type=range]{height:38px;}
+    .range-slider input[type=range]::-webkit-slider-thumb{width:26px; height:26px; margin-top:2px;}
+    .range-slider input[type=range]::-moz-range-thumb{width:26px; height:26px;}
+  }
+  @media (max-width:640px){
+    .filter-ranges{grid-template-columns:1fr;}
+  }
+
+  /* Card grid — styled after listing-site conventions (Bilbasen/Biltorvet):
+     full-bleed visual zone, compact spec tags, price as its own clear row. */
+  .offers-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(min(270px, 100%), 1fr));
+    gap:16px;
+  }
+  .offer-card{
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    transition:box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+  }
+  .offer-card:hover{
+    box-shadow:0 8px 24px rgba(8,79,140,0.10);
+    border-color:var(--fjord);
+    transform:translateY(-2px);
+  }
+  .offer-card-photo{
+    position:relative;
+    background:var(--mint);
+    height:104px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .compare-check{
+    position:absolute; bottom:8px; left:8px; z-index:1;
+    display:flex; align-items:center; gap:5px;
+    font-family:var(--body); font-size:11px; font-weight:600; color:var(--ink);
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:999px;
+    padding:4px 9px 4px 6px; cursor:pointer; user-select:none;
+  }
+  .compare-check input{margin:0; width:14px; height:14px; accent-color:var(--fjord); cursor:pointer;}
+  .compare-check.is-checked{border-color:var(--fjord); background:var(--mint);}
+  .compare-check.is-disabled{opacity:0.4; pointer-events:none;}
+
+  /* Sticky compare tray */
+  .compare-tray{
+    position:fixed; left:0; right:0; bottom:0; z-index:50;
+    background:var(--ink); color:#fff;
+    box-shadow:0 -6px 20px rgba(8,79,140,0.25);
+    transform:translateY(100%); transition:transform 0.2s ease;
+  }
+  .compare-tray.visible{transform:translateY(0);}
+  .compare-tray-inner{
+    max-width:1080px; margin:0 auto; padding:14px 28px;
+    display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+  }
+  .compare-tray-label{font-size:13px; color:#C3CCDA; white-space:nowrap;}
+  .compare-slots{display:flex; gap:8px; flex:1; flex-wrap:wrap;}
+  .compare-slot{
+    display:flex; align-items:center; gap:6px;
+    background:#1C3A5C; border-radius:999px; padding:6px 8px 6px 12px;
+    font-size:13px; font-weight:600;
+  }
+  .compare-slot button{
+    background:none; border:none; color:#C3CCDA; cursor:pointer; font-size:15px;
+    line-height:1; padding:2px 4px; border-radius:50%;
+  }
+  .compare-slot button:hover{color:#fff; background:rgba(255,255,255,0.15);}
+  .compare-slot.empty{background:transparent; border:1px dashed #3E5A7A; color:#8A97AE; font-weight:500;}
+  .compare-tray-actions{display:flex; align-items:center; gap:12px; margin-left:auto;}
+  .compare-clear{background:none; border:none; color:#C3CCDA; font-size:13px; text-decoration:underline; cursor:pointer; padding:0;}
+  .compare-go{
+    background:var(--amber); color:var(--ink); font-weight:700; font-size:14px;
+    text-decoration:none; padding:11px 18px; border-radius:6px; white-space:nowrap;
+  }
+  .compare-go.disabled{background:#3E5A7A; color:#8A97AE; pointer-events:none;}
+  @media (max-width:640px){
+    .compare-tray-inner{padding:12px 18px; gap:10px;}
+    .compare-tray-label{width:100%;}
+    .compare-tray-actions{margin-left:0; width:100%; justify-content:space-between;}
+  }
+  .offer-card-photo svg{width:76px; height:auto;}
+  .offer-card-badge{
+    position:absolute;
+    top:10px;
+    left:10px;
+    font-family:var(--mono);
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    background:var(--paper-raised);
+    color:var(--ink-soft);
+    padding:4px 9px;
+    border-radius:999px;
+  }
+  .offer-card-body{
+    padding:16px 18px 18px;
+    display:flex;
+    flex-direction:column;
+    flex:1;
+  }
+  .offer-card-brand{
+    font-size:11.5px;
+    font-weight:700;
+    color:var(--fjord);
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    margin-bottom:2px;
+  }
+  .offer-card h3{
+    font-family:var(--display);
+    font-size:18px;
+    font-weight:600;
+    margin:0 0 2px;
+    line-height:1.25;
+  }
+  .model-page-link{color:var(--ink); text-decoration:none;}
+  .model-page-link:hover{color:var(--fjord); text-decoration:underline;}
+  .offer-card-variant{font-size:13px; color:var(--grey); margin:0 0 12px;}
+  .change-badge{
+    font-size:11.5px;
+    font-weight:600;
+    line-height:1.45;
+    padding:8px 10px;
+    border-radius:6px;
+    margin:0 0 12px;
+  }
+  .change-badge p{margin:0;}
+  .change-badge p + p{margin-top:3px;}
+  .change-badge-date{opacity:0.75; font-weight:500; font-size:11px;}
+  /* Intentional one-off semantic colors, not part of the brand palette:
+     red-family = worse for the customer (price/fee went up), green-family =
+     better (went down), blue-family = informational (new listing). Standard
+     price-change convention, kept scoped to just this disclaimer. */
+  .change-badge--up{background:#FDECEA; color:#A32A1F;}
+  .change-badge--down{background:#E6F4EA; color:#1E7A45;}
+  .change-badge--new{background:var(--mint); color:var(--fjord-deep);}
+  .offer-card-spec-row{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px;}
+  .spec-tag{
+    font-size:11.5px;
+    font-weight:600;
+    color:var(--ink-soft);
+    background:var(--paper);
+    border:1px solid var(--line);
+    padding:4px 9px;
+    border-radius:6px;
+  }
+  .offer-card-price-row{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    border-top:1px solid var(--line);
+    padding-top:12px;
+    margin-bottom:14px;
+  }
+  .offer-card-price{font-family:var(--mono); font-weight:700; font-size:24px; color:var(--ink);}
+  .offer-card-price span{font-size:12px; font-weight:500; color:var(--grey);}
+  .offer-card-down{font-size:11.5px; color:var(--grey); text-align:right; line-height:1.4;}
+  .offer-card .see-offer-btn{
+    margin-top:auto;
+    text-align:center;
+    font-family:var(--body);
+    font-size:13.5px;
+    font-weight:600;
+    color:#fff;
+    background:var(--fjord);
+    padding:13px 10px;
+    border-radius:6px;
+    text-decoration:none;
+  }
+  .offer-card .see-offer-btn:hover{background:var(--fjord-deep);}
+  .offer-card .see-offer-btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+  .no-results{color:var(--grey); font-size:14px; padding:40px 0; text-align:center;}
+  .table-note{font-size:12.5px; color:var(--grey); margin:18px 2px 0;}
+
+  /* Alert section */
+  .alert{padding:64px 0 76px;}
+  .alert-card{
+    background:var(--ink);
+    color:#fff;
+    border-radius:12px;
+    padding:44px;
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:36px;
+    align-items:center;
+  }
+  .alert-card h2{
+    font-family:var(--display);
+    font-size:24px;
+    margin:0 0 8px;
+    letter-spacing:-0.01em;
+  }
+  .alert-card p{color:#C3CCDA; font-size:14.5px; margin:0; max-width:44ch;}
+  .alert-form{display:flex; gap:10px; flex-wrap:wrap;}
+  .alert-form input[type=email]{
+    font-family:var(--body);
+    font-size:14.5px;
+    padding:12px 14px;
+    border-radius:6px;
+    border:1px solid #2C3A55;
+    background:#1C2A45;
+    color:#fff;
+    min-width:220px;
+  }
+  .alert-form input::placeholder{color:#8A97AE;}
+  .alert-form input:focus-visible{outline:2px solid var(--amber);}
+  .btn-amber{background:var(--amber); color:var(--ink);}
+  .btn-amber:hover{background:var(--amber-deep); color:#fff;}
+  .form-msg{font-size:13px; color:var(--mint); margin-top:8px; min-height:16px;}
+
+  footer{padding:30px 0 50px; text-align:center; color:var(--grey); font-size:13px;}
+
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;}
+    .steps-grid{grid-template-columns:1fr;}
+    h1{font-size:32px;}
+    .alert-card{grid-template-columns:1fr;}
+  }
+  @media (max-width:480px){
+    .wrap{padding:0 18px;}
+    header .inner, header .wrap{padding-left:18px; padding-right:18px;}
+    .hero{padding:44px 0 40px;}
+    h1{font-size:26px;}
+    .lede{font-size:15.5px;}
+    .mirror-price{font-size:42px;}
+    .mirror-price span{font-size:17px;}
+    .mirror-label{font-size:11px;}
+    .cta-row{flex-direction:column; align-items:stretch;}
+    .cta-row .btn{text-align:center;}
+    .filter-panel{padding:14px 14px;}
+    .filter-select{min-width:0; flex:1 1 100%;}
+    .filter-reset{flex:1 1 auto; text-align:center;}
+    .filter-count{margin-left:0; flex:1 1 100%; text-align:center;}
+    .steps{padding:40px 0;}
+    .compare{padding:44px 0 10px;}
+    .alert{padding:44px 0 56px;}
+    .alert-card{padding:28px 20px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- Original vehicle silhouette icons (not photos of specific cars — generic
+     body-type shapes in the CarForYou palette) used in the offers table. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="car-hatchback" viewBox="0 0 120 60">
+      <rect x="8" y="32" width="104" height="16" rx="8" fill="var(--fjord)"/>
+      <path d="M30 32 L45 14 L80 14 L100 32 Z" fill="var(--ink)"/>
+      <path d="M33 30 L46 18 L79 18 L96 30 Z" fill="var(--mint)"/>
+      <line x1="62" y1="18" x2="62" y2="30" stroke="var(--fjord)" stroke-width="2"/>
+      <circle cx="35" cy="48" r="11" fill="var(--ink)"/>
+      <circle cx="35" cy="48" r="4" fill="var(--amber)"/>
+      <circle cx="90" cy="48" r="11" fill="var(--ink)"/>
+      <circle cx="90" cy="48" r="4" fill="var(--amber)"/>
+    </symbol>
+    <symbol id="car-suv" viewBox="0 0 120 60">
+      <rect x="6" y="28" width="108" height="20" rx="8" fill="var(--fjord)"/>
+      <path d="M28 28 L42 8 L82 8 L98 28 Z" fill="var(--ink)"/>
+      <path d="M31 26 L43 12 L81 12 L94 26 Z" fill="var(--mint)"/>
+      <line x1="62" y1="12" x2="62" y2="26" stroke="var(--fjord)" stroke-width="2"/>
+      <circle cx="32" cy="50" r="13" fill="var(--ink)"/>
+      <circle cx="32" cy="50" r="4.5" fill="var(--amber)"/>
+      <circle cx="92" cy="50" r="13" fill="var(--ink)"/>
+      <circle cx="92" cy="50" r="4.5" fill="var(--amber)"/>
+    </symbol>
+    <symbol id="car-mpv" viewBox="0 0 120 60">
+      <rect x="10" y="26" width="100" height="18" rx="6" fill="var(--fjord)"/>
+      <path d="M18 26 L20 6 L95 6 L100 26 Z" fill="var(--ink)"/>
+      <path d="M22 24 L23 10 L94 10 L97 24 Z" fill="var(--mint)"/>
+      <line x1="58" y1="10" x2="58" y2="24" stroke="var(--fjord)" stroke-width="2"/>
+      <circle cx="34" cy="48" r="11" fill="var(--ink)"/>
+      <circle cx="34" cy="48" r="4" fill="var(--amber)"/>
+      <circle cx="88" cy="48" r="11" fill="var(--ink)"/>
+      <circle cx="88" cy="48" r="4" fill="var(--amber)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header>
+  <div class="wrap">
+    <div class="logo"><svg viewBox="0 0 2340 762" xmlns="http://www.w3.org/2000/svg"><text fill="#084F8C" font-family="'Readex Pro',sans-serif" font-weight="600" font-size="362" transform="matrix(1 0 0 1 297.57 457)">car</text><text fill="#1081C7" font-family="'Readex Pro',sans-serif" font-weight="600" font-size="362" transform="matrix(1 0 0 1 841.84 457)">for</text><text fill="#00B0F0" font-family="'Readex Pro',sans-serif" font-weight="600" font-size="362" transform="matrix(1 0 0 1 1355.17 457)">you</text><path d="M0 312.244C0 269.583 34.58 235 77.24 235L182.76 235C225.42 235 260 269.583 260 312.244L260 417.757C260 460.417 225.42 495.001 182.76 495.001L77.24 495.001C34.58 495.001 0 460.417 0 417.757Z" fill="#1081C7" fill-rule="evenodd"/><text fill="#FFFFFF" font-family="'Readex Pro',sans-serif" font-weight="600" font-size="83" transform="matrix(1 0 0 1 93.91 444)">cfy</text></svg></div>
+    <nav id="mainNav">
+      <a href="#steps">Sådan virker det</a>
+      <a href="#compare">Priser</a>
+      <a href="modeller.html">Modeller</a>
+      <a href="sammenlign.html">Sammenlign</a>
+      <a href="artikler.html">Artikler</a>
+      <a href="#alert">Prisalarm</a>
+    </nav>
+    <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Åbn menu"><span></span></button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Privatleasing · Danmark</span>
+      <h1>Se de rigtige leasingpriser. Med det samme.</h1>
+      <p class="lede">Vi henter priserne direkte fra mærkernes egne hjemmesider og viser dem samlet — ingen formular, intet salgsopkald. Klik dig direkte videre til mærket, når du finder et tilbud, du kan lide.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#compare">Se priserne nu</a>
+        <a class="btn btn-ghost" href="#alert">Få prisalarm</a>
+      </div>
+    </div>
+    <div class="mirror" id="heroMirror">
+      <span class="sponsor-badge" id="heroSponsorBadge" hidden>Sponsoreret</span>
+      <div class="mirror-label" id="heroLabel">…</div>
+      <div class="mirror-price" id="heroPrice">… <span>kr./md.</span></div>
+      <div class="waterline"></div>
+      <div class="mirror-reflection">
+        <div class="mirror-price" id="heroPriceReflection">… <span>kr./md.</span></div>
+      </div>
+      <div class="mirror-caption">Samme pris, hver gang. Direkte fra kilden.</div>
+    </div>
+  </div>
+</section>
+
+<section class="steps" id="steps">
+  <div class="wrap">
+    <h2>Sådan virker det</h2>
+    <div class="steps-grid">
+      <div class="step">
+        <span class="num">01</span>
+        <h3>Vi tjekker mærkernes priser</h3>
+        <p>Vi henter privatleasing-priser fra de officielle hjemmesider hos de største bilmærker i Danmark.</p>
+      </div>
+      <div class="step">
+        <span class="num">02</span>
+        <h3>Du får ét samlet overblik</h3>
+        <p>Ingen kontaktformular og ingen ventetid — du ser udbetaling, ydelse og løbetid med det samme.</p>
+      </div>
+      <div class="step">
+        <span class="num">03</span>
+        <h3>Du går direkte til mærket</h3>
+        <p>Finder du et tilbud, du kan lide, sender vi dig videre direkte til mærkets egen side — ikke til os.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="compare" id="compare">
+  <div class="wrap">
+    <h2>Priser lige nu</h2>
+    <p class="sub">Et udsnit af privatleasing-tilbud. Klik "Se tilbud" for at gå direkte til mærket.</p>
+
+    <figure class="market-fig">
+      <div id="brandOverviewChart"></div>
+      <figcaption>Illustration: CarForYou, baseret på aktuelle priser i oversigten nedenfor.</figcaption>
+    </figure>
+
+    <div class="filter-panel">
+      <div class="filter-row">
+        <select class="filter-select" id="brandSelect" aria-label="Mærke">
+          <option value="Alle">Mærke: Alle</option>
+        </select>
+        <select class="filter-select" id="typeSelect" aria-label="Biltype">
+          <option value="Alle">Biltype: Alle</option>
+          <option value="hatchback">Hatchback</option>
+          <option value="suv">SUV</option>
+          <option value="mpv">MPV</option>
+        </select>
+        <select class="filter-select" id="sortSelect" aria-label="Sortér tilbud">
+          <option value="price-asc">Pris: Lav → høj</option>
+          <option value="price-desc">Pris: Høj → lav</option>
+          <option value="down-asc">Udbetaling: Lav → høj</option>
+        </select>
+        <button type="button" class="filter-reset" id="filterReset">Nulstil</button>
+        <span class="filter-count" id="resultCount"></span>
+      </div>
+
+      <div class="filter-ranges">
+        <div>
+          <div class="range-filter-label"><span>Udbetaling</span><span id="downRangeLabel"></span></div>
+          <div class="range-slider">
+            <div class="range-slider-track"></div>
+            <div class="range-slider-fill" id="downFill"></div>
+            <input type="range" id="downMin" aria-label="Mindste udbetaling">
+            <input type="range" id="downMax" aria-label="Højeste udbetaling">
+          </div>
+        </div>
+        <div>
+          <div class="range-filter-label"><span>Leasingpris pr. md.</span><span id="priceRangeLabel"></span></div>
+          <div class="range-slider">
+            <div class="range-slider-track"></div>
+            <div class="range-slider-fill" id="priceFill"></div>
+            <input type="range" id="priceMin" aria-label="Mindste leasingpris">
+            <input type="range" id="priceMax" aria-label="Højeste leasingpris">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="offers-grid" id="offers-grid">
+      <!-- Cards are rendered by data.js at load time. See render script near end of file. -->
+    </div>
+    <p class="table-note" id="table-note-text">Alle priser er tjekket direkte hos mærket d. 4. august 2026.</p>
+  </div>
+</section>
+
+<section class="alert" id="alert">
+  <div class="wrap">
+    <div class="alert-card">
+      <div>
+        <h2>Få besked, når prisen falder</h2>
+        <p>Følg de mærker eller modeller, du overvejer. Vi sender dig en mail, hvis prisen ændrer sig.</p>
+      </div>
+      <div>
+        <form class="alert-form" id="alertForm">
+          <input type="email" id="alertEmail" placeholder="din@email.dk" required aria-label="Din e-mailadresse">
+          <button type="submit" class="btn btn-amber">Følg priser</button>
+        </form>
+        <div class="form-msg" id="formMsg"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="compare-tray" id="compareTray">
+  <div class="compare-tray-inner">
+    <span class="compare-tray-label">Sammenlign modeller:</span>
+    <div class="compare-slots" id="compareSlots"></div>
+    <div class="compare-tray-actions">
+      <button type="button" class="compare-clear" id="compareClearBtn">Ryd</button>
+      <a class="compare-go disabled" id="compareGoBtn">Sammenlign →</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">CarForYou — tidlig testversion. Ikke tilknyttet de viste bilmærker.</div>
+</footer>
+
+<script>
+  // NOTE for the founder: this only simulates a signup locally.
+  // Before sharing this page with real visitors, connect this form to a real
+  // email tool (e.g. Brevo or Mailchimp's signup-form embed/API) so emails are
+  // actually captured and stored somewhere.
+  document.getElementById('alertForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var email = document.getElementById('alertEmail').value;
+    var msg = document.getElementById('formMsg');
+    if(email){
+      msg.textContent = 'Tak! Vi følger op på ' + email + ' (demo — ikke rigtigt tilmeldt endnu).';
+      document.getElementById('alertEmail').value = '';
+    }
+  });
+</script>
+
+<script type="application/ld+json" id="offersSchema"></script>
+<script src="data.js"></script>
+<script src="sponsorships.js"></script>
+<script>
+  // Renders the offers grid from CARFORYOU_DATA (data.js), with dropdown
+  // filtering (brand/biltype/pris ranges), sorting and reset applied
+  // client-side. This is the one place future automation output feeds
+  // into — regenerate data.js, and the grid, dropdown options and "last
+  // checked" note all update automatically. Never hand-edit cards here.
+  // --- Sponsorship (paid placement) ---------------------------------
+  // Reads SPONSORSHIPS from sponsorships.js. Never invents or overrides a
+  // price -- always matches through to the real offer in CARFORYOU_DATA, so
+  // a sponsor can buy placement but never a fake number. Every placement
+  // this touches must render with the "Sponsoreret" badge (see CSS/HTML) --
+  // that's a legal disclosure requirement (Forbrugerombudsmanden), not a
+  // style choice, and it isn't optional.
+
+  function isSponsorshipActive(entry){
+    if (!entry || !entry.start_date || !entry.end_date) return false;
+    var today = new Date().toISOString().slice(0, 10);
+    return today >= entry.start_date && today <= entry.end_date;
+  }
+
+  function findMatchingOffer(entry){
+    if (typeof CARFORYOU_DATA === 'undefined') return null;
+    return CARFORYOU_DATA.find(function(o){
+      return o.maerke === entry.maerke && o.model === entry.model &&
+             o.variant === entry.variant && o.udbetaling_kr === entry.udbetaling_kr;
+    }) || null;
+  }
+
+  function offerKey(o){ return o.maerke + '|' + o.model + '|' + o.variant + '|' + o.udbetaling_kr; }
+  function modelKey(o){ return o.maerke + '|' + o.model; }
+
+  // --- Compare tray -------------------------------------------------
+  // Selection is tracked by MODEL (maerke|model), not by individual
+  // variant card, since the comparison tool (sammenlign.html) compares
+  // whole models -- checking any one variant of a model marks that model,
+  // and every card belonging to it highlights together on re-render.
+  var compareSelection = []; // up to 2 entries: "Maerke|Model"
+
+  function compareTraySlugFromKey(key){
+    var parts = key.split('|');
+    return slugify(parts[0]) + '-' + slugify(parts[1]);
+  }
+
+  function renderCompareTray(){
+    var tray = document.getElementById('compareTray');
+    if (!tray) return;
+    tray.classList.toggle('visible', compareSelection.length > 0);
+
+    var slotsHtml = [0, 1].map(function(i){
+      var key = compareSelection[i];
+      if (!key) return '<div class="compare-slot empty">Vælg model ' + (i + 1) + '</div>';
+      var parts = key.split('|');
+      return '<div class="compare-slot">' + parts[0] + ' ' + parts[1] +
+        '<button type="button" data-remove-key="' + key + '" aria-label="Fjern fra sammenligning">×</button></div>';
+    }).join('');
+    document.getElementById('compareSlots').innerHTML = slotsHtml;
+
+    var goBtn = document.getElementById('compareGoBtn');
+    if (compareSelection.length === 2) {
+      var a = compareTraySlugFromKey(compareSelection[0]);
+      var b = compareTraySlugFromKey(compareSelection[1]);
+      goBtn.href = 'sammenlign.html?a=' + a + '&b=' + b;
+      goBtn.classList.remove('disabled');
+    } else {
+      goBtn.removeAttribute('href');
+      goBtn.classList.add('disabled');
+    }
+  }
+
+  function toggleCompareModel(key){
+    var idx = compareSelection.indexOf(key);
+    if (idx !== -1) {
+      compareSelection.splice(idx, 1);
+    } else if (compareSelection.length < 2) {
+      compareSelection.push(key);
+    }
+    renderCompareTray();
+    renderOffers(); // re-render grid so checkbox states + disabled state stay in sync
+  }
+
+  // Original, data-driven illustration: cheapest available price per brand
+  // right now, computed live from CARFORYOU_DATA. Not decorative, and not
+  // filtered by the visitor's current selections -- a stable market
+  // snapshot shown once, above the filterable grid.
+  function renderBrandOverviewChart(){
+    var el = document.getElementById('brandOverviewChart');
+    if (!el || typeof CARFORYOU_DATA === 'undefined' || !CARFORYOU_DATA.length) return;
+
+    var byBrand = {};
+    CARFORYOU_DATA.forEach(function(o){
+      if (!byBrand[o.maerke] || o.ydelse_kr < byBrand[o.maerke]) byBrand[o.maerke] = o.ydelse_kr;
+    });
+    var brands = Object.keys(byBrand).sort(function(x, y){ return byBrand[x] - byBrand[y]; });
+    if (!brands.length) return;
+
+    var maxPrice = Math.max.apply(null, brands.map(function(b){ return byBrand[b]; }));
+    var rowH = 34, top = 34, chartW = 460;
+    var svgH = top + brands.length * rowH + 10;
+
+    var bars = brands.map(function(b, i){
+      var y = top + i * rowH;
+      var w = Math.max(6, (byBrand[b] / maxPrice) * chartW);
+      return '<text x="0" y="' + (y + 14) + '" font-family="Inter,sans-serif" font-size="12.5" fill="#1E2A3A">' + b + '</text>' +
+        '<rect x="130" y="' + y + '" width="' + w.toFixed(1) + '" height="16" rx="4" fill="#1081C7"/>' +
+        '<text x="' + (130 + w + 8) + '" y="' + (y + 13) + '" font-family="\'JetBrains Mono\',monospace" font-weight="700" font-size="12.5" fill="#084F8C">' + formatKr(byBrand[b]) + '/md.</text>';
+    }).join('');
+
+    var ariaText = 'Billigste tilbud pr. mærke lige nu: ' + brands.map(function(b){ return b + ' fra ' + formatKr(byBrand[b]) + ' om måneden'; }).join(', ') + '.';
+
+    el.innerHTML =
+      '<svg viewBox="0 0 640 ' + svgH + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="' + ariaText + '">' +
+      '<text x="0" y="16" font-family="Inter,sans-serif" font-size="12" fill="#5B6472">Billigste tilbud pr. mærke lige nu</text>' +
+      bars +
+      '</svg>';
+  }
+
+
+  function renderHero(){
+    var labelEl = document.getElementById('heroLabel');
+    var priceEl = document.getElementById('heroPrice');
+    var priceReflEl = document.getElementById('heroPriceReflection');
+    var badgeEl = document.getElementById('heroSponsorBadge');
+    if (!labelEl || typeof CARFORYOU_DATA === 'undefined' || !CARFORYOU_DATA.length) return;
+
+    var offer = null;
+    var sponsored = false;
+    if (typeof SPONSORSHIPS !== 'undefined' && isSponsorshipActive(SPONSORSHIPS.hero)) {
+      offer = findMatchingOffer(SPONSORSHIPS.hero);
+      sponsored = !!offer;
+    }
+    if (!offer) {
+      // No active (or matching) sponsor -- fall back to the genuinely
+      // cheapest current offer, shown unbadged, so the hero is never empty
+      // and never shows a stale hand-typed number.
+      offer = CARFORYOU_DATA.slice().sort(function(a,b){ return a.ydelse_kr - b.ydelse_kr; })[0];
+    }
+
+    var priceText = offer.ydelse_kr.toLocaleString('da-DK') + ' <span>kr./md.</span>';
+    labelEl.textContent = (offer.maerke + ' ' + offer.model + ' ' + offer.variant).toUpperCase() + ' · ' + offer.loebetid_mdr + ' MDR';
+    priceEl.innerHTML = priceText;
+    priceReflEl.innerHTML = priceText;
+    badgeEl.hidden = !sponsored;
+  }
+
+  function formatKr(n){ return n.toLocaleString('da-DK') + ' kr.'; }
+
+  // --- UTM tagging for outbound "Se tilbud" links -----------------------
+  // Only ever applied to the external kilde_url links below -- never to
+  // internal links (#compare, nav, article cross-links), and not to the
+  // JSON-LD Offer.url either, since structured data should describe the
+  // canonical destination for search engines, not a tracked marketing link.
+  function slugify(s){
+    return String(s).toLowerCase()
+      .replace(/æ/g,'ae').replace(/ø/g,'oe').replace(/å/g,'aa')
+      .replace(/[^a-z0-9]+/g,'-')
+      .replace(/^-+|-+$/g,'');
+  }
+
+  function withUtm(rawUrl, params){
+    try {
+      var url = new URL(rawUrl);
+      Object.keys(params).forEach(function(k){
+        if (params[k]) url.searchParams.set(k, params[k]);
+      });
+      return url.toString();
+    } catch (e) {
+      // If the URL is somehow malformed, fall back to the untagged link
+      // rather than break the button.
+      return rawUrl;
+    }
+  }
+
+  function offerLinkUrl(o, isSponsored){
+    return withUtm(o.kilde_url, {
+      utm_source: 'carforyou',
+      utm_medium: isSponsored ? 'affiliate' : 'referral',
+      utm_campaign: isSponsored ? 'sponsoreret-' + slugify(o.maerke) : 'privatleasing-sammenligning',
+      utm_content: slugify(o.maerke + '-' + o.model + '-' + o.variant + '-' + o.udbetaling_kr)
+    });
+  }
+
+  // Renders the "what changed since last update" disclaimer for an offer,
+  // if update_prices.py's diff step flagged one. Only shown if the change
+  // happened within the last 30 days -- checked against the viewer's
+  // current date, so a disclaimer never lingers indefinitely even if the
+  // scraper hasn't run in a while. Tone priority: any price or fee increase
+  // shows as a warning (worse for the customer) even if something else
+  // about the same offer went down at the same time.
+  function changeBadgeHtml(o){
+    if (!o.change || !o.change.notes || !o.change.notes.length || !o.change.date) return '';
+
+    var changeDate = new Date(o.change.date);
+    var daysSince = Math.floor((Date.now() - changeDate.getTime()) / (1000 * 60 * 60 * 24));
+    if (isNaN(daysSince) || daysSince > 30) return '';
+
+    var types = o.change.types || [];
+    var tone = 'down';
+    if (types.indexOf('new') !== -1) tone = 'new';
+    else if (types.indexOf('price_up') !== -1 || types.indexOf('down_up') !== -1) tone = 'up';
+    var label = tone === 'new' ? 'Nyhed: ' : (tone === 'up' ? 'Bemærk: ' : 'Godt at vide: ');
+    var dateLabel = 'Ændret d. ' + changeDate.toLocaleDateString('da-DK', {day:'numeric', month:'long', year:'numeric'});
+
+    return '<div class="change-badge change-badge--' + tone + '">' +
+      o.change.notes.map(function(n, i){ return '<p>' + (i === 0 ? label : '') + n + '</p>'; }).join('') +
+      '<p class="change-badge-date">' + dateLabel + '</p>' +
+      '</div>';
+  }
+
+  // Bounds are computed from the live dataset rather than hardcoded, so the
+  // sliders automatically adapt as data.js is regenerated by automation.
+  var bounds = {down: {min:0, max:100000}, price: {min:0, max:10000}};
+
+  function niceCeil(n, step){ return Math.ceil(n / step) * step; }
+  function niceFloor(n, step){ return Math.floor(n / step) * step; }
+
+  function computeBounds(){
+    if (typeof CARFORYOU_DATA === 'undefined' || !CARFORYOU_DATA.length) return;
+    var downs = CARFORYOU_DATA.map(function(o){ return o.udbetaling_kr; });
+    var prices = CARFORYOU_DATA.map(function(o){ return o.ydelse_kr; });
+    bounds.down.min = niceFloor(Math.min.apply(null, downs), 1000);
+    bounds.down.max = niceCeil(Math.max.apply(null, downs), 1000);
+    bounds.price.min = niceFloor(Math.min.apply(null, prices), 100);
+    bounds.price.max = niceCeil(Math.max.apply(null, prices), 100);
+  }
+
+  function setupRangeSlider(key, minId, maxId, fillId, labelId, step, suffix){
+    var minInput = document.getElementById(minId);
+    var maxInput = document.getElementById(maxId);
+    var fill = document.getElementById(fillId);
+    var label = document.getElementById(labelId);
+    var b = bounds[key];
+
+    minInput.min = maxInput.min = b.min;
+    minInput.max = maxInput.max = b.max;
+    minInput.step = maxInput.step = step;
+    minInput.value = b.min;
+    maxInput.value = b.max;
+
+    function update(){
+      var lo = parseInt(minInput.value, 10);
+      var hi = parseInt(maxInput.value, 10);
+      if (lo > hi){
+        // keep handles from crossing, whichever the user is dragging wins
+        if (document.activeElement === minInput) { hi = lo; maxInput.value = hi; }
+        else { lo = hi; minInput.value = lo; }
+      }
+      var range = b.max - b.min || 1;
+      var leftPct = ((lo - b.min) / range) * 100;
+      var rightPct = 100 - ((hi - b.min) / range) * 100;
+      fill.style.left = leftPct + '%';
+      fill.style.right = rightPct + '%';
+      label.textContent = formatKr(lo) + (suffix || '') + ' – ' + formatKr(hi) + (suffix || '');
+      renderOffers();
+    }
+
+    minInput.addEventListener('input', update);
+    maxInput.addEventListener('input', update);
+    update();
+    return {reset: function(){ minInput.value = b.min; maxInput.value = b.max; update(); }};
+  }
+
+  var downSlider, priceSlider;
+
+  function resetAllFilters(){
+    document.getElementById('brandSelect').value = 'Alle';
+    document.getElementById('typeSelect').value = 'Alle';
+    document.getElementById('sortSelect').value = 'price-asc';
+    if (downSlider) downSlider.reset();
+    if (priceSlider) priceSlider.reset(); // also calls renderOffers()
+  }
+
+  function buildBrandOptions(){
+    var select = document.getElementById('brandSelect');
+    if (!select || typeof CARFORYOU_DATA === 'undefined') return;
+    var brands = Array.from(new Set(CARFORYOU_DATA.map(function(o){ return o.maerke; }))).sort();
+    brands.forEach(function(b){
+      var opt = document.createElement('option');
+      opt.value = b; opt.textContent = 'Mærke: ' + b;
+      select.appendChild(opt);
+    });
+  }
+
+  function sortOffers(list, mode){
+    var sorted = list.slice();
+    if (mode === 'price-desc') sorted.sort(function(a,b){ return b.ydelse_kr - a.ydelse_kr; });
+    else if (mode === 'down-asc') sorted.sort(function(a,b){ return a.udbetaling_kr - b.udbetaling_kr; });
+    else sorted.sort(function(a,b){ return a.ydelse_kr - b.ydelse_kr; }); // price-asc, default
+    return sorted;
+  }
+
+  function renderOffers(){
+    var grid = document.getElementById('offers-grid');
+    var countEl = document.getElementById('resultCount');
+    if (!grid || typeof CARFORYOU_DATA === 'undefined') return;
+
+    var brand = document.getElementById('brandSelect').value;
+    var type = document.getElementById('typeSelect').value;
+    var sortMode = document.getElementById('sortSelect').value;
+    var downLo = parseInt(document.getElementById('downMin').value, 10);
+    var downHi = parseInt(document.getElementById('downMax').value, 10);
+    var priceLo = parseInt(document.getElementById('priceMin').value, 10);
+    var priceHi = parseInt(document.getElementById('priceMax').value, 10);
+
+    var filtered = CARFORYOU_DATA.filter(function(o){
+      if (brand !== 'Alle' && o.maerke !== brand) return false;
+      if (type !== 'Alle' && (o.type || 'hatchback') !== type) return false;
+      if (o.udbetaling_kr < downLo || o.udbetaling_kr > downHi) return false;
+      if (o.ydelse_kr < priceLo || o.ydelse_kr > priceHi) return false;
+      return true;
+    });
+    filtered = sortOffers(filtered, sortMode);
+
+    // Sponsored offers (active, within the date window) are pinned to the
+    // front, in the order listed in sponsorships.js -- but only if they
+    // already match the visitor's current filters. A sponsor's placement
+    // never overrides someone's active search; it just wins the tiebreak
+    // for where it appears among results the visitor already asked for.
+    var sponsoredKeys = {};
+    var sponsoredCards = [];
+    if (typeof SPONSORSHIPS !== 'undefined' && SPONSORSHIPS.featured) {
+      SPONSORSHIPS.featured.filter(isSponsorshipActive).forEach(function(entry){
+        var match = filtered.find(function(o){ return offerKey(o) === offerKey(entry) || (
+          o.maerke === entry.maerke && o.model === entry.model &&
+          o.variant === entry.variant && o.udbetaling_kr === entry.udbetaling_kr
+        ); });
+        if (match && !sponsoredKeys[offerKey(match)]) {
+          sponsoredKeys[offerKey(match)] = true;
+          sponsoredCards.push(match);
+        }
+      });
+    }
+    var organicCards = filtered.filter(function(o){ return !sponsoredKeys[offerKey(o)]; });
+    var ordered = sponsoredCards.concat(organicCards);
+
+    if (countEl) countEl.textContent = 'Viser ' + filtered.length + ' af ' + CARFORYOU_DATA.length;
+
+    if (ordered.length === 0){
+      grid.innerHTML = '<p class="no-results">Ingen tilbud matcher lige nu — prøv at nulstille filtrene.</p>';
+      return;
+    }
+
+    grid.innerHTML = ordered.map(function(o){
+      var iconId = 'car-' + (o.type || 'hatchback');
+      var isSponsored = !!sponsoredKeys[offerKey(o)];
+      var mKey = modelKey(o);
+      var isSelected = compareSelection.indexOf(mKey) !== -1;
+      var isDisabled = !isSelected && compareSelection.length >= 2;
+      return '<article class="offer-card' + (isSponsored ? ' offer-card--sponsored' : '') + '">' +
+        '<div class="offer-card-photo">' +
+          '<span class="offer-card-badge">' + (o.type || '') + '</span>' +
+          '<label class="compare-check' + (isSelected ? ' is-checked' : '') + (isDisabled ? ' is-disabled' : '') + '" title="Sammenlign denne model">' +
+            '<input type="checkbox" data-model-key="' + mKey + '" data-maerke="' + o.maerke + '" data-model="' + o.model + '"' + (isSelected ? ' checked' : '') + (isDisabled ? ' disabled' : '') + '>' +
+            'Sammenlign' +
+          '</label>' +
+          (isSponsored ? '<span class="sponsor-badge">Sponsoreret</span>' : '') +
+          '<svg role="img" aria-label="' + o.model + '"><use href="#' + iconId + '"/></svg>' +
+        '</div>' +
+        '<div class="offer-card-body">' +
+          '<div class="offer-card-brand">' + o.maerke + '</div>' +
+          '<h3><a href="model-' + slugify(o.maerke) + '-' + slugify(o.model) + '.html" class="model-page-link">' + o.model + '</a></h3>' +
+          '<p class="offer-card-variant">' + o.variant + '</p>' +
+          changeBadgeHtml(o) +
+          '<div class="offer-card-spec-row">' +
+            '<span class="spec-tag">' + o.loebetid_mdr + ' mdr.</span>' +
+            '<span class="spec-tag">' + o.km_aar.toLocaleString('da-DK') + ' km/år</span>' +
+          '</div>' +
+          '<div class="offer-card-price-row">' +
+            '<div class="offer-card-price">' + formatKr(o.ydelse_kr) + ' <span>/md.</span></div>' +
+            '<div class="offer-card-down">' + formatKr(o.udbetaling_kr) + '<br>udbetaling</div>' +
+          '</div>' +
+          '<a class="see-offer-btn" href="' + offerLinkUrl(o, isSponsored) + '" target="_blank" rel="noopener">Se tilbud →</a>' +
+        '</div>' +
+      '</article>';
+    }).join('');
+
+    var newest = CARFORYOU_DATA.map(function(o){ return o.sidst_tjekket; }).sort().pop();
+    var note = document.getElementById('table-note-text');
+    if (note && newest) {
+      var formatted = new Date(newest).toLocaleDateString('da-DK', {day:'numeric', month:'long', year:'numeric'});
+      note.textContent = 'Alle priser er tjekket direkte hos mærket senest ' + formatted + '.';
+    }
+
+    // Structured data reflecting what's actually on screen (capped at 20
+    // items -- plenty for rich-result purposes, keeps the payload sane).
+    // Regenerated on every filter/sort change so it never describes a
+    // different set of offers than the visitor is looking at.
+    var schemaEl = document.getElementById('offersSchema');
+    if (schemaEl) {
+      var itemList = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": ordered.slice(0, 20).map(function(o, i){
+          return {
+            "@type": "ListItem",
+            "position": i + 1,
+            "item": {
+              "@type": "Product",
+              "name": o.maerke + ' ' + o.model + ' ' + o.variant,
+              "brand": o.maerke,
+              "offers": {
+                "@type": "Offer",
+                "price": o.ydelse_kr,
+                "priceCurrency": "DKK",
+                "url": o.kilde_url,
+                "availability": "https://schema.org/InStock"
+              }
+            }
+          };
+        })
+      };
+      schemaEl.textContent = JSON.stringify(itemList);
+    }
+  }
+
+  // Mobile nav toggle
+  (function(){
+    var toggle = document.getElementById('navToggle');
+    var nav = document.getElementById('mainNav');
+    if (!toggle || !nav) return;
+    toggle.addEventListener('click', function(){
+      var open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? 'Luk menu' : 'Åbn menu');
+    });
+    nav.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        nav.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    window.addEventListener('resize', function(){
+      if (window.innerWidth > 680 && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  // Compare checkboxes use event delegation on the grid container, since
+  // its contents are fully replaced on every renderOffers() call -- binding
+  // to individual checkboxes would leak listeners and stop working after
+  // the first re-render.
+  document.getElementById('offers-grid').addEventListener('change', function(e){
+    if (e.target && e.target.matches('input[type=checkbox][data-model-key]')) {
+      toggleCompareModel(e.target.getAttribute('data-model-key'));
+    }
+  });
+  document.getElementById('compareSlots').addEventListener('click', function(e){
+    var btn = e.target.closest('[data-remove-key]');
+    if (btn) toggleCompareModel(btn.getAttribute('data-remove-key'));
+  });
+  document.getElementById('compareClearBtn').addEventListener('click', function(){
+    compareSelection = [];
+    renderCompareTray();
+    renderOffers();
+  });
+
+  renderHero();
+  renderBrandOverviewChart();
+  buildBrandOptions();
+  computeBounds();
+  downSlider = setupRangeSlider('down', 'downMin', 'downMax', 'downFill', 'downRangeLabel', 1000);
+  priceSlider = setupRangeSlider('price', 'priceMin', 'priceMax', 'priceFill', 'priceRangeLabel', 100);
+  renderOffers();
+  ['brandSelect','typeSelect','sortSelect'].forEach(function(id){
+    document.getElementById(id).addEventListener('change', renderOffers);
+  });
+  document.getElementById('filterReset').addEventListener('click', resetAllFilters);
+</script>
+
+
+</body>
+</html>
