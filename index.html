@@ -745,6 +745,9 @@
           <option value="suv">SUV</option>
           <option value="mpv">MPV</option>
         </select>
+        <select class="filter-select" id="kmAarSelect" aria-label="Km. pr. år">
+          <option value="Alle">Km./år: Alle</option>
+        </select>
         <select class="filter-select" id="sortSelect" aria-label="Sortér tilbud">
           <option value="price-asc">Pris: Lav → høj</option>
           <option value="price-desc">Pris: Høj → lav</option>
@@ -988,7 +991,7 @@
   // canonical destination for search engines, not a tracked marketing link.
   function slugify(s){
     return String(s).toLowerCase()
-      .replace(/æ/g,'ae').replace(/ø/g,'oe').replace(/å/g,'aa')
+      .replace(/æ/g,'ae').replace(/ø/g,'oe').replace(/å/g,'aa').replace(/é/g,'e')
       .replace(/[^a-z0-9]+/g,'-')
       .replace(/^-+|-+$/g,'');
   }
@@ -1101,6 +1104,7 @@
   function resetAllFilters(){
     document.getElementById('brandSelect').value = 'Alle';
     document.getElementById('typeSelect').value = 'Alle';
+    document.getElementById('kmAarSelect').value = 'Alle';
     document.getElementById('sortSelect').value = 'price-asc';
     if (downSlider) downSlider.reset();
     if (priceSlider) priceSlider.reset(); // also calls renderOffers()
@@ -1113,6 +1117,21 @@
     brands.forEach(function(b){
       var opt = document.createElement('option');
       opt.value = b; opt.textContent = 'Mærke: ' + b;
+      select.appendChild(opt);
+    });
+  }
+
+  // Km./år values come straight from the scraped/manual offer data, not a
+  // fixed list -- so if a brand later exposes a new tier (or drops one),
+  // this dropdown stays correct on its own without a code change.
+  function buildKmAarOptions(){
+    var select = document.getElementById('kmAarSelect');
+    if (!select || typeof CARFORYOU_DATA === 'undefined') return;
+    var values = Array.from(new Set(CARFORYOU_DATA.map(function(o){ return o.km_aar; }))).sort(function(a,b){ return a - b; });
+    values.forEach(function(km){
+      var opt = document.createElement('option');
+      opt.value = String(km);
+      opt.textContent = new Intl.NumberFormat('da-DK').format(km) + ' km./år';
       select.appendChild(opt);
     });
   }
@@ -1132,6 +1151,7 @@
 
     var brand = document.getElementById('brandSelect').value;
     var type = document.getElementById('typeSelect').value;
+    var kmAar = document.getElementById('kmAarSelect').value;
     var sortMode = document.getElementById('sortSelect').value;
     var downLo = parseInt(document.getElementById('downMin').value, 10);
     var downHi = parseInt(document.getElementById('downMax').value, 10);
@@ -1141,6 +1161,7 @@
     var filtered = CARFORYOU_DATA.filter(function(o){
       if (brand !== 'Alle' && o.maerke !== brand) return false;
       if (type !== 'Alle' && (o.type || 'hatchback') !== type) return false;
+      if (kmAar !== 'Alle' && String(o.km_aar) !== kmAar) return false;
       if (o.udbetaling_kr < downLo || o.udbetaling_kr > downHi) return false;
       if (o.ydelse_kr < priceLo || o.ydelse_kr > priceHi) return false;
       return true;
@@ -1295,11 +1316,12 @@
   renderHero();
   renderBrandOverviewChart();
   buildBrandOptions();
+  buildKmAarOptions();
   computeBounds();
   downSlider = setupRangeSlider('down', 'downMin', 'downMax', 'downFill', 'downRangeLabel', 1000);
   priceSlider = setupRangeSlider('price', 'priceMin', 'priceMax', 'priceFill', 'priceRangeLabel', 100);
   renderOffers();
-  ['brandSelect','typeSelect','sortSelect'].forEach(function(id){
+  ['brandSelect','typeSelect','kmAarSelect','sortSelect'].forEach(function(id){
     document.getElementById(id).addEventListener('change', renderOffers);
   });
   document.getElementById('filterReset').addEventListener('click', resetAllFilters);

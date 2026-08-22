@@ -36,5 +36,14 @@ const ARTICLES = [
     date: "2026-02-20",
     tag: "Guide",
     tags: ["guide", "priser", "alle-maerker"]
+  },
+  {
+    slug: "billigste-leasingbiler-2026",
+    filename: "artikel-billigste-leasingbiler-2026.html",
+    title: "Billigste leasingbiler i 2026 — de 5 laveste priser lige nu",
+    summary: "Renault Twingo topper som billigste privatleasing i 2026 til 2.195 kr./md. Se de 5 billigste modeller på tværs af Volkswagen, Toyota, Kia og Renault — opdateret fra live priser.",
+    date: "2026-08-22",
+    tag: "Priser",
+    tags: ["priser", "elbil", "alle-maerker", "renault", "volkswagen", "kia"]
   }
 ];
