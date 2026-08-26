@@ -88,5 +88,29 @@ const MODEL_SPECS = {
     "raekkevidde_km_min": 450,
     "raekkevidde_km_max": 634,
     "forbrug": "15.1 kWh/100km"
+  },
+  "Hyundai|KONA Electric": {
+    "type": "electric",
+    "raekkevidde_km_min": 377,
+    "raekkevidde_km_max": 377,
+    "forbrug": "146-168 Wh/km"
+  },
+  "Hyundai|IONIQ 5": {
+    "type": "electric",
+    "raekkevidde_km_min": 440,
+    "raekkevidde_km_max": 440,
+    "forbrug": "156-181 Wh/km"
+  },
+  "Hyundai|IONIQ 6": {
+    "type": "electric",
+    "raekkevidde_km_min": 521,
+    "raekkevidde_km_max": 521,
+    "forbrug": "139-151 Wh/km"
+  },
+  "Hyundai|IONIQ 9": {
+    "type": "electric",
+    "raekkevidde_km_min": 620,
+    "raekkevidde_km_max": 620,
+    "forbrug": "199-206 Wh/km"
   }
 };
