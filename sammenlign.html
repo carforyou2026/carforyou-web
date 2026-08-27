@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title id="pageTitle">Sammenlign biler til privatleasing | CarForYou</title>
-<meta name="description" id="pageDescription" content="Sammenlign to bilmodeller til privatleasing side om side — pris, udbetaling og specifikationer, hentet direkte fra mærkerne.">
+<meta name="description" id="pageDescription" content="Sammenlign to bilmodeller til privatleasing side om side: pris, udbetaling og specifikationer, hentet direkte fra mærkerne.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -137,7 +137,7 @@
 </main>
 
 <footer>
-  <div class="wrap">CarForYou — tidlig testversion. Ikke tilknyttet de viste bilmærker.</div>
+  <div class="wrap">CarForYou. Tidlig testversion, ikke tilknyttet de viste bilmærker.</div>
 </footer>
 
 <script src="data.js"></script>
@@ -216,7 +216,7 @@
     var sa = modelStats(a), sb = modelStats(b);
 
     document.getElementById('h1Title').textContent = a.maerke + ' ' + a.model + ' vs. ' + b.maerke + ' ' + b.model;
-    document.getElementById('pageTitle').textContent = a.maerke + ' ' + a.model + ' vs. ' + b.maerke + ' ' + b.model + ' — sammenlign leasingpriser | CarForYou';
+    document.getElementById('pageTitle').textContent = a.maerke + ' ' + a.model + ' vs. ' + b.maerke + ' ' + b.model + ': sammenlign leasingpriser | CarForYou';
     document.getElementById('pageDescription').setAttribute('content',
       'Sammenlign privatleasing af ' + a.maerke + ' ' + a.model + ' og ' + b.maerke + ' ' + b.model + ': pris fra ' +
       fmtKr(sa.cheapest) + '/md. vs. ' + fmtKr(sb.cheapest) + '/md., udbetaling og specifikationer side om side.');
@@ -283,7 +283,7 @@
         specForbrugRow() +
       '</tbody>' +
     '</table></div>' +
-    '<p class="note">"Billigste ydelse" er den laveste månedlige pris på tværs af modellens varianter og udbetalingstrin — ikke nødvendigvis samme udbetaling for begge biler. ' +
+    '<p class="note">"Billigste ydelse" er den laveste månedlige pris på tværs af modellens varianter og udbetalingstrin, ikke nødvendigvis samme udbetaling for begge biler. ' +
     ((!specA || !specB) ? 'Vi har endnu ikke hentet detaljerede specifikationer for alle mærker automatisk. ' : '') +
     'Se hele prislisten for hver model via linket ovenfor.</p>';
 

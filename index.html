@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CarForYou — Se de rigtige leasingpriser med det samme</title>
-<meta name="description" content="Sammenlign privatleasing-priser fra Volkswagen, Toyota, Kia og Renault direkte fra kilden — udbetaling, ydelse og løbetid samlet, ingen formular. Opdateres løbende.">
+<title>CarForYou: Se de rigtige leasingpriser med det samme</title>
+<meta name="description" content="Sammenlign privatleasing-priser fra Volkswagen, Toyota, Kia og Renault direkte fra kilden: udbetaling, ydelse og løbetid samlet, ingen formular. Opdateres løbende.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -27,7 +27,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* Brand palette — from CarForYou logo/brand kit */
+    /* Brand palette, from CarForYou logo/brand kit */
     --ink:#084F8C;
     --ink-soft:#3E6A8A;
     --paper:#F3F6F8;
@@ -265,7 +265,7 @@
   .market-fig svg{width:100%; height:auto; display:block;}
   .market-fig figcaption{font-size:11px; color:var(--grey); margin-top:8px; text-align:right;}
 
-  /* Filter panel — dropdown chain + reset + result count, in the spirit of
+  /* Filter panel: dropdown chain + reset + result count, in the spirit of
      Bilbasen's search bar (Mærke/Model/Årgang/Km/Drivmiddel dropdowns,
      Nulstil, "Vis X biler"), adapted to our fields. */
   .filter-panel{
@@ -386,7 +386,7 @@
     .filter-ranges{grid-template-columns:1fr;}
   }
 
-  /* Card grid — styled after listing-site conventions (Bilbasen/Biltorvet):
+  /* Card grid, styled after listing-site conventions (Bilbasen/Biltorvet):
      full-bleed visual zone, compact spec tags, price as its own clear row. */
   .offers-grid{
     display:grid;
@@ -625,7 +625,7 @@
 </head>
 <body>
 
-<!-- Original vehicle silhouette icons (not photos of specific cars — generic
+<!-- Original vehicle silhouette icons (not photos of specific cars, generic
      body-type shapes in the CarForYou palette) used in the offers table. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
@@ -682,7 +682,7 @@
     <div>
       <span class="eyebrow">Privatleasing · Danmark</span>
       <h1>Se de rigtige leasingpriser. Med det samme.</h1>
-      <p class="lede">Vi henter priserne direkte fra mærkernes egne hjemmesider og viser dem samlet — ingen formular, intet salgsopkald. Klik dig direkte videre til mærket, når du finder et tilbud, du kan lide.</p>
+      <p class="lede">Vi henter priserne direkte fra mærkernes egne hjemmesider og viser dem samlet. Ingen formular, intet salgsopkald. Klik dig direkte videre til mærket, når du finder et tilbud, du kan lide.</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="#compare">Se priserne nu</a>
         <a class="btn btn-ghost" href="#alert">Få prisalarm</a>
@@ -713,12 +713,12 @@
       <div class="step">
         <span class="num">02</span>
         <h3>Du får ét samlet overblik</h3>
-        <p>Ingen kontaktformular og ingen ventetid — du ser udbetaling, ydelse og løbetid med det samme.</p>
+        <p>Ingen kontaktformular og ingen ventetid. Du ser udbetaling, ydelse og løbetid med det samme.</p>
       </div>
       <div class="step">
         <span class="num">03</span>
         <h3>Du går direkte til mærket</h3>
-        <p>Finder du et tilbud, du kan lide, sender vi dig videre direkte til mærkets egen side — ikke til os.</p>
+        <p>Finder du et tilbud, du kan lide, sender vi dig videre direkte til mærkets egen side, ikke til os.</p>
       </div>
     </div>
   </div>
@@ -816,7 +816,7 @@
 </div>
 
 <footer>
-  <div class="wrap">CarForYou — tidlig testversion. Ikke tilknyttet de viste bilmærker.</div>
+  <div class="wrap">CarForYou. Tidlig testversion, ikke tilknyttet de viste bilmærker.</div>
 </footer>
 
 <script>
@@ -829,7 +829,7 @@
     var email = document.getElementById('alertEmail').value;
     var msg = document.getElementById('formMsg');
     if(email){
-      msg.textContent = 'Tak! Vi følger op på ' + email + ' (demo — ikke rigtigt tilmeldt endnu).';
+      msg.textContent = 'Tak! Vi følger op på ' + email + ' (demo, ikke rigtigt tilmeldt endnu).';
       document.getElementById('alertEmail').value = '';
     }
   });
@@ -842,7 +842,7 @@
   // Renders the offers grid from CARFORYOU_DATA (data.js), with dropdown
   // filtering (brand/biltype/pris ranges), sorting and reset applied
   // client-side. This is the one place future automation output feeds
-  // into — regenerate data.js, and the grid, dropdown options and "last
+  // into: regenerate data.js, and the grid, dropdown options and "last
   // checked" note all update automatically. Never hand-edit cards here.
   // --- Sponsorship (paid placement) ---------------------------------
   // Reads SPONSORSHIPS from sponsorships.js. Never invents or overrides a
@@ -1206,7 +1206,7 @@
     if (countEl) countEl.textContent = 'Viser ' + filtered.length + ' af ' + CARFORYOU_DATA.length;
 
     if (ordered.length === 0){
-      grid.innerHTML = '<p class="no-results">Ingen tilbud matcher lige nu — prøv at nulstille filtrene.</p>';
+      grid.innerHTML = '<p class="no-results">Ingen tilbud matcher lige nu. Prøv at nulstille filtrene.</p>';
       return;
     }
 
