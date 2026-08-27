@@ -926,26 +926,39 @@
     var el = document.getElementById('brandOverviewChart');
     if (!el || typeof CARFORYOU_DATA === 'undefined' || !CARFORYOU_DATA.length) return;
 
+    // Store the full cheapest offer per brand, not just its price, so the
+    // chart can also show udbetaling and km/aar alongside the monthly rate.
     var byBrand = {};
     CARFORYOU_DATA.forEach(function(o){
-      if (!byBrand[o.maerke] || o.ydelse_kr < byBrand[o.maerke]) byBrand[o.maerke] = o.ydelse_kr;
+      if (!byBrand[o.maerke] || o.ydelse_kr < byBrand[o.maerke].ydelse_kr) byBrand[o.maerke] = o;
     });
-    var brands = Object.keys(byBrand).sort(function(x, y){ return byBrand[x] - byBrand[y]; });
+    var brands = Object.keys(byBrand).sort(function(x, y){ return byBrand[x].ydelse_kr - byBrand[y].ydelse_kr; });
     if (!brands.length) return;
 
-    var maxPrice = Math.max.apply(null, brands.map(function(b){ return byBrand[b]; }));
-    var rowH = 34, top = 34, chartW = 460;
+    var maxPrice = Math.max.apply(null, brands.map(function(b){ return byBrand[b].ydelse_kr; }));
+    // chartW is deliberately kept well short of the viewBox width so the
+    // price label always has room to its right, even for the longest bar
+    // (previously this was the exact bug: the most expensive brand's label
+    // ran off the edge of the chart and got silently clipped, e.g. missing
+    // "kr./md." on that one row only).
+    var rowH = 46, top = 34, chartW = 360;
     var svgH = top + brands.length * rowH + 10;
 
     var bars = brands.map(function(b, i){
+      var offer = byBrand[b];
       var y = top + i * rowH;
-      var w = Math.max(6, (byBrand[b] / maxPrice) * chartW);
+      var w = Math.max(6, (offer.ydelse_kr / maxPrice) * chartW);
+      var detailText = formatKr(offer.udbetaling_kr) + ' udb. · ' + offer.km_aar.toLocaleString('da-DK') + ' km/år';
       return '<text x="0" y="' + (y + 14) + '" font-family="Inter,sans-serif" font-size="12.5" fill="#1E2A3A">' + b + '</text>' +
         '<rect x="130" y="' + y + '" width="' + w.toFixed(1) + '" height="16" rx="4" fill="#1081C7"/>' +
-        '<text x="' + (130 + w + 8) + '" y="' + (y + 13) + '" font-family="\'JetBrains Mono\',monospace" font-weight="700" font-size="12.5" fill="#084F8C">' + formatKr(byBrand[b]) + '/md.</text>';
+        '<text x="' + (130 + w + 8) + '" y="' + (y + 13) + '" font-family="\'JetBrains Mono\',monospace" font-weight="700" font-size="12.5" fill="#084F8C">' + formatKr(offer.ydelse_kr) + '/md.</text>' +
+        '<text x="130" y="' + (y + 32) + '" font-family="Inter,sans-serif" font-size="11" fill="#5B6472">' + detailText + '</text>';
     }).join('');
 
-    var ariaText = 'Billigste tilbud pr. mærke lige nu: ' + brands.map(function(b){ return b + ' fra ' + formatKr(byBrand[b]) + ' om måneden'; }).join(', ') + '.';
+    var ariaText = 'Billigste tilbud pr. mærke lige nu: ' + brands.map(function(b){
+      var o = byBrand[b];
+      return b + ' fra ' + formatKr(o.ydelse_kr) + ' om måneden, ' + formatKr(o.udbetaling_kr) + ' i udbetaling, ' + o.km_aar.toLocaleString('da-DK') + ' km/år';
+    }).join(', ') + '.';
 
     el.innerHTML =
       '<svg viewBox="0 0 640 ' + svgH + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="' + ariaText + '">' +
