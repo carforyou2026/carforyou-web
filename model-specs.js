@@ -20,8 +20,8 @@ const MODEL_SPECS = {
   "Volkswagen|ID. Polo": {
     "type": "electric",
     "raekkevidde_km_min": 442,
-    "raekkevidde_km_max": 453,
-    "forbrug": "13.3 kWh/100km"
+    "raekkevidde_km_max": 442,
+    "forbrug": "13.8 kWh/100km"
   },
   "Volkswagen|ID.3 Neo": {
     "type": "electric",
@@ -32,8 +32,8 @@ const MODEL_SPECS = {
   "Volkswagen|ID.4": {
     "type": "electric",
     "raekkevidde_km_min": 519,
-    "raekkevidde_km_max": 558,
-    "forbrug": "15.8 kWh/100km"
+    "raekkevidde_km_max": 561,
+    "forbrug": "15.9 kWh/100km"
   },
   "Volkswagen|ID.7 Tourer": {
     "type": "electric",
@@ -43,8 +43,8 @@ const MODEL_SPECS = {
   },
   "Volkswagen|ID.5": {
     "type": "electric",
-    "raekkevidde_km_min": 557,
-    "raekkevidde_km_max": 563,
+    "raekkevidde_km_min": 559,
+    "raekkevidde_km_max": 565,
     "forbrug": "15.7 kWh/100km"
   },
   "Skoda|Kamiq": {
