@@ -43,6 +43,7 @@ REQUIRED FOLLOW-UP
 
 import re
 import sys
+import os
 import json
 import datetime
 
@@ -182,16 +183,22 @@ def parse_vw_master_pricelist(text):
 
 
 def _debug_response(name, resp):
-    """Prints diagnostic info about a fetched response so a failed run's
-    log actually shows *why* parsing found nothing -- e.g. a bot-check page,
-    a redirect to a cookie-consent wall, or a genuinely changed page
-    structure all look different here, instead of just "0 offers" with no
-    further clue.
+    """Prints diagnostic info about a fetched response, AND saves the full
+    raw HTML to a file so it can be uploaded as a workflow artifact and
+    actually inspected -- the printed 300-char snippet alone isn't enough
+    to tell a genuine site-structure change from a bot-check page from a
+    parser looking for the wrong thing entirely.
     """
     snippet = resp.text[:300].replace("\n", " ")
     print(f"  [{name}] status={resp.status_code} final_url={resp.url} "
           f"content_length={len(resp.text)}", file=sys.stderr)
     print(f"  [{name}] first 300 chars: {snippet!r}", file=sys.stderr)
+    os.makedirs("debug_html", exist_ok=True)
+    safe_name = re.sub(r"[^a-zA-Z0-9]+", "_", name).strip("_")
+    debug_path = f"debug_html/{safe_name}.html"
+    with open(debug_path, "w", encoding="utf-8") as f:
+        f.write(resp.text)
+    print(f"  [{name}] full response saved to {debug_path}", file=sys.stderr)
 
 
 def fetch_vw_offers():
