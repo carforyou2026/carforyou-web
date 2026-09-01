@@ -1,10 +1,18 @@
 name: Update leasing prices
 
 on:
+  # Runs automatically every day at 06:00 UTC (08:00 Danish time in winter,
+  # 07:00 in summer -- close enough to "every morning" without worrying
+  # about daylight saving in a cron expression).
   schedule:
     - cron: "0 6 * * *"
+  # Lets you trigger a run manually from the Actions tab, without waiting
+  # for the schedule -- use this to test the whole pipeline for real before
+  # trusting the daily schedule.
   workflow_dispatch:
 
+# Needed so the workflow is allowed to commit the updated data.js/model
+# pages back to the repository.
 permissions:
   contents: write
 
@@ -25,6 +33,14 @@ jobs:
 
       - name: Fetch live prices and rebuild data.js
         run: python update_prices.py
+
+      - name: Upload debug HTML if the fetch step had trouble
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-html
+          path: debug_html/
+          if-no-files-found: ignore
 
       - name: Regenerate model pages from the updated data
         run: python build_model_pages.py
