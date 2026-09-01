@@ -181,6 +181,19 @@ def parse_vw_master_pricelist(text):
     return list(seen.values())
 
 
+def _debug_response(name, resp):
+    """Prints diagnostic info about a fetched response so a failed run's
+    log actually shows *why* parsing found nothing -- e.g. a bot-check page,
+    a redirect to a cookie-consent wall, or a genuinely changed page
+    structure all look different here, instead of just "0 offers" with no
+    further clue.
+    """
+    snippet = resp.text[:300].replace("\n", " ")
+    print(f"  [{name}] status={resp.status_code} final_url={resp.url} "
+          f"content_length={len(resp.text)}", file=sys.stderr)
+    print(f"  [{name}] first 300 chars: {snippet!r}", file=sys.stderr)
+
+
 def fetch_vw_offers():
     try:
         resp = requests.get(VW_MASTER_PRICELIST_URL, headers=HEADERS, timeout=20)
@@ -189,6 +202,8 @@ def fetch_vw_offers():
         print(f"WARNING: failed to fetch VW master price list: {e}", file=sys.stderr)
         return []
     offers = parse_vw_master_pricelist(resp.text)
+    if not offers:
+        _debug_response("VW", resp)
     print(f"  VW: parsed {len(offers)} offers across "
           f"{len(set(o['model'] for o in offers))} models", file=sys.stderr)
     return offers
@@ -254,6 +269,8 @@ def fetch_skoda_offers():
         print(f"WARNING: failed to fetch Skoda master price list: {e}", file=sys.stderr)
         return []
     offers = parse_skoda_master_pricelist(resp.text)
+    if not offers:
+        _debug_response("Skoda", resp)
     print(f"  Skoda: parsed {len(offers)} offers across "
           f"{len(set(o['model'] for o in offers))} models", file=sys.stderr)
     return offers
@@ -305,6 +322,8 @@ def fetch_kia_offers():
             print(f"WARNING: failed to fetch Kia {model_name}: {e}", file=sys.stderr)
             continue
         offers = parse_kia_text(resp.text, model_name)
+        if not offers:
+            _debug_response(f"Kia {model_name}", resp)
         print(f"  Kia {model_name}: parsed {len(offers)} offers", file=sys.stderr)
         all_offers.extend(offers)
     return all_offers
@@ -360,6 +379,8 @@ def fetch_toyota_offers():
         print(f"WARNING: failed to fetch Toyota campaigns: {e}", file=sys.stderr)
         return []
     offers = parse_toyota_text(resp.text)
+    if not offers:
+        _debug_response("Toyota", resp)
     print(f"  Toyota: parsed {len(offers)} offers", file=sys.stderr)
     return offers
 
@@ -424,6 +445,8 @@ def fetch_renault_offers():
         print(f"WARNING: failed to fetch Renault privatleasing page: {e}", file=sys.stderr)
         return []
     offers = parse_renault_text(resp.text)
+    if len(offers) < 2:
+        _debug_response("Renault", resp)
     print(f"  Renault: parsed {len(offers)} offers", file=sys.stderr)
     return offers
 
