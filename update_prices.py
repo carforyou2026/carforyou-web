@@ -98,7 +98,10 @@ KIA_MODELS = {
     "EV9": "https://kiaonline.dk/biler/ev9/",
     "PV5 Passenger": "https://kiaonline.dk/biler/pv5-passenger/",
 }
-MIN_EXPECTED_KIA_OFFERS = 4
+# Was 4 when only the 10.000 km/aar tier was kept from a much simpler (and,
+# it turned out, incorrect) parser. The rebuilt parser extracts every km/year
+# tier across all 5 models -- ~185 offers in real testing.
+MIN_EXPECTED_KIA_OFFERS = 100
 
 # Skoda's leasing is run through the same Skandinavisk Motor Co. A/S as VW,
 # with an equivalent single master price-list PDF covering the whole lineup.
@@ -283,40 +286,67 @@ def fetch_skoda_offers():
     return offers
 
 
-def parse_kia_text(text, model_name):
-    """See parse_kia.py for the fully-commented, tested version of this
-    function against real sample data. Kept in sync with it here."""
-    heading_pattern = re.compile(r"##\s+" + re.escape(model_name) + r"\s+(\S[^\n]*)")
-    row_pattern = re.compile(
-        r"(\d[\d.]*)\s*km\n([\d.]+)\s*kr\.\n(\d+)\s*mdr\.\n([\d.]+)\s*kr\.\n"
-        r"[\d.]+\s*kr\.\s*/\s*halvår\n[\d.]+\s*kr\.\n[\d.]+\s*kr\.\n[\d.]+\s*kr\."
-    )
-    headings = list(heading_pattern.finditer(text))
-    seen = {}
-    for idx, h in enumerate(headings):
-        variant = h.group(1).strip()
-        section_end = headings[idx + 1].start() if idx + 1 < len(headings) else len(text)
-        section = text[h.end():section_end]
-        for m in row_pattern.finditer(section):
-            km = int(m.group(1).replace(".", ""))
-            if km != 10000:
+def parse_kia_text(html, model_name):
+    """Rebuilt against the real raw HTML (see debug_html/Kia_*.html) after
+    discovering the previous version was written against markdown-style
+    text from a research tool's page extraction, not the actual HTML a
+    plain HTTP request receives -- kiaonline.dk uses a column-based table
+    (data-th="Kilometer"/"Loebetid"/"Maanedlig ydelse") inside per-variant
+    <section class="mtt-price-table"> blocks, each duplicated once for a
+    tabletlandscape breakpoint (deduped below) and offering two down-
+    payment tiers via data-security-deposity-body="<beloeb>".
+
+    Extracts EVERY km/year tier per variant/down-payment combo, matching
+    the convention used for VW/Skoda's expanded data.
+    """
+    records = []
+    sections = html.split('<section class="mtt-price-table')[1:]
+    seen_variant_names = {}
+
+    for sec in sections:
+        tagline_m = re.search(r'mtt-price-table__tagline">([^<]*)', sec)
+        variant = tagline_m.group(1).strip() if tagline_m else model_name
+        count = seen_variant_names.get(variant, 0)
+        seen_variant_names[variant] = count + 1
+        display_variant = variant if count == 0 else f"{variant} ({count + 1})"
+
+        seen_udb = set()
+        body_blocks = re.finditer(
+            r'data-security-deposity-body="(\d+)">(.*?)(?=data-security-deposity-body="|\Z)',
+            sec, re.DOTALL
+        )
+        for m in body_blocks:
+            udbetaling = int(m.group(1))
+            if udbetaling in seen_udb:
                 continue
-            down = int(m.group(2).replace(".", ""))
-            key = (variant, down)
-            seen[key] = {
-                "maerke": "Kia",
-                "model": model_name,
-                "variant": variant,
-                "udbetaling_kr": down,
-                "ydelse_kr": int(m.group(4).replace(".", "")),
-                "loebetid_mdr": int(m.group(3)),
-                "km_aar": km,
-                "kilde_url": KIA_MODELS.get(model_name, f"https://kiaonline.dk/biler/{model_name.lower().replace(' ', '-')}/"),
-                "sidst_tjekket": TODAY,
-                "status": "Aktiv",
-                "type": MODEL_TYPES.get(model_name, "hatchback"),
-            }
-    return list(seen.values())
+            seen_udb.add(udbetaling)
+            body = m.group(2)
+
+            def row_values(label, body=body):
+                row_m = re.search(
+                    r'body-data--first">' + re.escape(label) + r'</div>(.*?)(?=body-data--first|\Z)',
+                    body, re.DOTALL
+                )
+                return re.findall(r'data-th="' + re.escape(label) + r'">([^<]*)<', row_m.group(1)) if row_m else []
+
+            kms = row_values("Kilometer")
+            terms = row_values("L\u00f8betid")
+            prices = row_values("M\u00e5nedlig ydelse")
+            for km_s, term_s, price_s in zip(kms, terms, prices):
+                records.append({
+                    "maerke": "Kia",
+                    "model": model_name,
+                    "variant": display_variant,
+                    "udbetaling_kr": udbetaling,
+                    "ydelse_kr": int(re.sub(r"[^\d]", "", price_s)),
+                    "loebetid_mdr": int(re.sub(r"[^\d]", "", term_s)),
+                    "km_aar": int(re.sub(r"[^\d]", "", km_s)),
+                    "kilde_url": KIA_MODELS.get(model_name, f"https://kiaonline.dk/biler/{model_name.lower().replace(' ', '-')}/"),
+                    "sidst_tjekket": TODAY,
+                    "status": "Aktiv",
+                    "type": MODEL_TYPES.get(model_name, "hatchback"),
+                })
+    return records
 
 
 def fetch_kia_offers():
